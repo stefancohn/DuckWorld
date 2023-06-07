@@ -6,7 +6,7 @@ public class KeyHandler implements KeyListener {
     public Boolean upPressed = false;
     public Boolean downPressed = false;
     public Boolean leftPressed = false;
-    public Boolean rightPressed = false;;
+    public Boolean rightPressed = false;
 
     @Override
     public void keyTyped(KeyEvent e) {
