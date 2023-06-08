@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
-import entity.Ducky;
 import handler.KeyHandler;
 import handler.MouseHandler;
 import util.Constants;
@@ -11,9 +10,9 @@ import util.Constants;
 public class GamePanel extends JPanel {
     KeyHandler kh = new KeyHandler();
     MouseHandler mh = new MouseHandler();
-    Ducky duck = new Ducky(kh);
+    Game game;
 
-    public GamePanel() {
+    public GamePanel(Game game) {
         //set up game panel
         this.setPreferredSize(new Dimension(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
         this.setBackground(Color.black);
@@ -21,15 +20,15 @@ public class GamePanel extends JPanel {
         this.setDoubleBuffered(true);
         this.addKeyListener(kh);
         this.addMouseListener(mh);
+        this.game = game;
     }
 
     public void update() {
-        duck.update();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        duck.draw(g);
+        game.draw(g);
         g.dispose();
     }
 }

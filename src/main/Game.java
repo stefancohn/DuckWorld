@@ -1,13 +1,16 @@
 package main;
 
+import java.awt.Graphics;
+
+import entity.Ducky;
 import util.Constants;
 
 public class Game implements Runnable {
     Thread GameThread = new Thread(this);
-    GamePanel panel;
+    GamePanel panel = new GamePanel(this);;
+    Ducky duck = new Ducky(panel.kh, 0, 0);
 
     public Game() {
-        panel = new GamePanel();
         GameFrame frame = new GameFrame();
         frame.add(panel);
         frame.pack();
@@ -21,7 +24,7 @@ public class Game implements Runnable {
     @Override
     public void run() {
         double drawInterval = 1000000000/Constants.FPS;
-        double updateInterval = 1000000000/Constants.FPS;
+        double updateInterval = 1000000000/Constants.UPS;
         double deltaT = 0; 
         double deltaU = 0;
         long lastTime = System.nanoTime();
@@ -45,11 +48,11 @@ public class Game implements Runnable {
     }
 
     public void update() {
-        panel.update();
+        duck.update();
     }
 
-    public void draw() {
-
+    public void draw(Graphics g) {
+        duck.draw(g);
     }
          
 }

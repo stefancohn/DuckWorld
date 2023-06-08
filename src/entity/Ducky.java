@@ -6,21 +6,20 @@ import util.Constants;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-    public class Ducky {
+    public class Ducky extends Entity {
         BufferedImage duckSprite;
         BufferedImage[][] duckAni = new BufferedImage[3][2];
         int spriteLoop = 0;
         int spriteRow = 0;
         int spriteCol = 0;
-        int aniTick, aniSpeed = 30;
+        int aniTick, aniSpeed = 25;
 
         KeyHandler kh = new KeyHandler();
 
-        int xPos = 0;
-        int yPos = 0;
         String direction = "";
 
-        public Ducky(KeyHandler kh) {
+        public Ducky(KeyHandler kh, int x, int y) {
+            super(x, y);
             getPlayerImage();
             loadAni();
             this.kh = kh;
@@ -72,19 +71,19 @@ import java.awt.image.BufferedImage;
 
         private void duckyMovement() {
             if (kh.upPressed == true){
-                yPos -= Constants.DUCKY_SPEED;
+                y -= Constants.DUCKY_SPEED;
                 direction = "up";
             }
-            if (kh.downPressed == true) {
-                yPos += Constants.DUCKY_SPEED;
+            else if (kh.downPressed == true) {
+                y += Constants.DUCKY_SPEED;
                 direction = "down";
             }
-            if (kh.leftPressed == true) {
-                xPos -= Constants.DUCKY_SPEED;
+            else if (kh.leftPressed == true) {
+                x -= Constants.DUCKY_SPEED;
                 direction = "left";
             }
-            if (kh.rightPressed == true) {
-                xPos += Constants.DUCKY_SPEED;
+            else if (kh.rightPressed == true) {
+                x += Constants.DUCKY_SPEED;
                 direction = "right";
             }
             if (kh.rightPressed != true && kh.leftPressed != true 
@@ -100,6 +99,6 @@ import java.awt.image.BufferedImage;
             //System.out.println(spriteLoop);
         }
         public void draw(Graphics g) {
-            g.drawImage(duckAni[spriteRow][spriteLoop], xPos, yPos, 32, 32, null);
+            g.drawImage(duckAni[spriteRow][spriteLoop], x, y, 32, 32, null);
         }
     }

@@ -7,6 +7,7 @@ public class KeyHandler implements KeyListener {
     public Boolean downPressed = false;
     public Boolean leftPressed = false;
     public Boolean rightPressed = false;
+    public String direction = "";
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -17,15 +18,19 @@ public class KeyHandler implements KeyListener {
         int i = e.getKeyCode();
         if (i == KeyEvent.VK_W) {
             upPressed = true;
+            direction = "up";
         }
         if (i == KeyEvent.VK_S) {
             downPressed = true;
+            direction = "down";
         }
         if (i == KeyEvent.VK_D) {
             rightPressed = true;
+            direction = "right";
         }
         if (i == KeyEvent.VK_A) {
             leftPressed = true;
+            direction = "left";
         }
     }
 
@@ -34,15 +39,19 @@ public class KeyHandler implements KeyListener {
         int i = e.getKeyCode();
         if (i == KeyEvent.VK_W) {
             upPressed = false;
+            direction = "";
         }
         if (i == KeyEvent.VK_S) {
             downPressed = false;
+            direction = "";
         }
         if (i == KeyEvent.VK_D) {
             rightPressed = false;
+            direction = "";
         }
         if (i == KeyEvent.VK_A) {
             leftPressed = false;
+            direction = "";
         }
     }
     
