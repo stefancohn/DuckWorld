@@ -42,6 +42,7 @@ import java.awt.image.BufferedImage;
         }
 
         private void setAni() {
+            int startAni = spriteRow;
             switch (direction) {
                 case "right":
                     spriteCol = 2;
@@ -55,6 +56,10 @@ import java.awt.image.BufferedImage;
                     spriteCol = 0;
                     spriteRow = Constants.DUCKY_IDLE;
                     break;
+            }
+            if (spriteRow != startAni) {
+                aniTick = 0;
+                spriteLoop = 0;
             }
         }
 
@@ -70,24 +75,24 @@ import java.awt.image.BufferedImage;
         }
 
         private void duckyMovement() {
-            if (kh.upPressed == true){
+            if (kh.getUpPres() == true && kh.getDownPres() != true){
                 y -= Constants.DUCKY_SPEED;
                 direction = "up";
             }
-            else if (kh.downPressed == true) {
+            else if (kh.getDownPres() == true && kh.getUpPres() != true) {
                 y += Constants.DUCKY_SPEED;
                 direction = "down";
             }
-            else if (kh.leftPressed == true) {
+            else if (kh.getLeftPres() == true && kh.getRightPres() != true) {
                 x -= Constants.DUCKY_SPEED;
                 direction = "left";
             }
-            else if (kh.rightPressed == true) {
+            else if (kh.getRightPres() == true && kh.getLeftPres() != true) {
                 x += Constants.DUCKY_SPEED;
                 direction = "right";
             }
-            if (kh.rightPressed != true && kh.leftPressed != true 
-            && kh.downPressed != true && kh.upPressed != true) {
+            if (kh.getRightPres() != true && kh.getLeftPres() != true 
+            && kh.getDownPres() != true && kh.getUpPres() != true) {
                 direction = "";
             }
         }
@@ -96,9 +101,15 @@ import java.awt.image.BufferedImage;
             duckyMovement();
             setAni();
             updateAni();
-            //System.out.println(spriteLoop);
         }
         public void draw(Graphics g) {
             g.drawImage(duckAni[spriteRow][spriteLoop], x, y, 32, 32, null);
+        }
+
+        public void resetDir() {
+            kh.downPressed = false;
+            kh.upPressed = false;
+            kh.leftPressed = false;
+            kh.rightPressed = false; 
         }
     }

@@ -1,13 +1,30 @@
 package main;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+
 import javax.swing.*;
 import util.Constants;
 
 public class GameFrame extends JFrame {
 
-    GameFrame() {
+    GameFrame(GamePanel panel) {
         this.setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Duck World");
+        this.setLocationRelativeTo(null);
+        this.addWindowFocusListener(new WindowFocusListener() {
+
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+               panel.getGame().windowFocusLost();
+            }
+            
+        });
     }
 }

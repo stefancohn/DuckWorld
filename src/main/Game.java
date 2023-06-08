@@ -7,11 +7,11 @@ import util.Constants;
 
 public class Game implements Runnable {
     Thread GameThread = new Thread(this);
-    GamePanel panel = new GamePanel(this);;
+    GamePanel panel = new GamePanel(this);
+    GameFrame frame = new GameFrame(panel);;
     Ducky duck = new Ducky(panel.kh, 0, 0);
 
     public Game() {
-        GameFrame frame = new GameFrame();
         frame.add(panel);
         frame.pack();
         frame.setVisible(true);
@@ -19,6 +19,14 @@ public class Game implements Runnable {
 
     public void startGameThread() {
         GameThread.start();
+    }
+    
+    public Ducky getDucky() {
+        return duck;
+    }
+
+    public void windowFocusLost() {
+        duck.resetDir();
     }
 
     @Override
@@ -50,9 +58,7 @@ public class Game implements Runnable {
     public void update() {
         duck.update();
     }
-
     public void draw(Graphics g) {
         duck.draw(g);
-    }
-         
+    }      
 }

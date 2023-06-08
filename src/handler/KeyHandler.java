@@ -54,5 +54,8 @@ public class KeyHandler implements KeyListener {
             direction = "";
         }
     }
-    
+    public Boolean getUpPres() { return upPressed; }
+    public Boolean getDownPres() { return downPressed; }
+    public Boolean getRightPres() { return rightPressed; }
+    public Boolean getLeftPres() { return leftPressed; }
 }

@@ -23,6 +23,10 @@ public class GamePanel extends JPanel {
         this.game = game;
     }
 
+    public Game getGame() {
+        return game;
+    }
+
     public void update() {
     }
 
