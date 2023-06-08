@@ -1,6 +1,5 @@
 package main;
 import javax.swing.*;
-
 import util.Constants;
 
 public class GameFrame extends JFrame {

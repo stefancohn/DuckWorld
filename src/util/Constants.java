@@ -9,8 +9,8 @@ public class Constants {
     public static final int SCALE = 3;
     public static final int TILE_SIZE = 16 * SCALE;
 
-    public static final int DUCKY_RIGHT = 0;
-    public static final int DUCKY_LEFT = 0;
     public static final int DUCKY_SPEED = 3; 
-
+    public static final int DUCKY_IDLE = 0;
+    public static final int DUCKY_RIGHT = 1;
+    public static final int DUCKY_LEFT = 2;
 }

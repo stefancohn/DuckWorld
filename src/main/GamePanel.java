@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
-
 import entity.Ducky;
 import handler.KeyHandler;
 import handler.MouseHandler;
@@ -22,6 +21,10 @@ public class GamePanel extends JPanel {
         this.setDoubleBuffered(true);
         this.addKeyListener(kh);
         this.addMouseListener(mh);
+    }
+
+    public void update() {
+        duck.update();
     }
 
     public void paintComponent(Graphics g) {
