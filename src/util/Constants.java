@@ -13,4 +13,5 @@ public class Constants {
     public static final int DUCKY_IDLE = 0;
     public static final int DUCKY_RIGHT = 1;
     public static final int DUCKY_LEFT = 2;
+    public static final int DUCKY_ATTACK = 3; 
 }

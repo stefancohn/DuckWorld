@@ -7,6 +7,7 @@ public class KeyHandler implements KeyListener {
     public Boolean downPressed = false;
     public Boolean leftPressed = false;
     public Boolean rightPressed = false;
+    public Boolean spacePressed = false;
     public String direction = "";
 
     @Override
@@ -32,6 +33,9 @@ public class KeyHandler implements KeyListener {
             leftPressed = true;
             direction = "left";
         }
+        if (i == KeyEvent.VK_SPACE) {
+            spacePressed = true;
+        }
     }
 
     @Override
@@ -53,9 +57,13 @@ public class KeyHandler implements KeyListener {
             leftPressed = false;
             direction = "";
         }
+        if (i == KeyEvent.VK_SPACE) {
+            spacePressed = false;
+        }
     }
     public Boolean getUpPres() { return upPressed; }
     public Boolean getDownPres() { return downPressed; }
     public Boolean getRightPres() { return rightPressed; }
     public Boolean getLeftPres() { return leftPressed; }
+    public Boolean getSpacePres() {return spacePressed; }
 }

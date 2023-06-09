@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 
     public class Ducky extends Entity {
         BufferedImage duckSprite;
-        BufferedImage[][] duckAni = new BufferedImage[3][2];
+        BufferedImage[][] duckAni = new BufferedImage[4][4];
         int spriteLoop = 0;
         int spriteRow = 0;
         int spriteCol = 0;
@@ -17,6 +17,9 @@ import java.awt.image.BufferedImage;
         KeyHandler kh = new KeyHandler();
 
         String direction = "";
+
+        Boolean isAttacking = false;
+        int attackFrames = 4;
 
         public Ducky(KeyHandler kh, int x, int y) {
             super(x, y);
@@ -51,6 +54,10 @@ import java.awt.image.BufferedImage;
                 case "left": 
                     spriteCol = 2;
                     spriteRow = Constants.DUCKY_LEFT;
+                    break;
+                case "attacking":
+                    spriteCol = 4;
+                    spriteRow = Constants.DUCKY_ATTACK;
                     break;
                 default: 
                     spriteCol = 0;
@@ -91,8 +98,12 @@ import java.awt.image.BufferedImage;
                 x += Constants.DUCKY_SPEED;
                 direction = "right";
             }
+            else if (kh.getSpacePres() == true) {
+                isAttacking = true;
+                direction = "attacking";
+            }
             if (kh.getRightPres() != true && kh.getLeftPres() != true 
-            && kh.getDownPres() != true && kh.getUpPres() != true) {
+            && kh.getDownPres() != true && kh.getUpPres() != true && kh.getSpacePres() != true) {
                 direction = "";
             }
         }
@@ -111,5 +122,6 @@ import java.awt.image.BufferedImage;
             kh.upPressed = false;
             kh.leftPressed = false;
             kh.rightPressed = false; 
+            isAttacking = false;
         }
     }
