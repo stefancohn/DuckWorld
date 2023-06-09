@@ -1,8 +1,8 @@
 package entity;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import handler.KeyHandler;
 import util.Constants;
+import util.LoadSave;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -12,28 +12,19 @@ import java.awt.image.BufferedImage;
         int spriteLoop = 0;
         int spriteRow = 0;
         int spriteCol = 0;
-        int aniTick, aniSpeed = 25;
+        int aniTick, aniSpeed = 15;
 
         KeyHandler kh = new KeyHandler();
 
         String direction = "";
 
         Boolean isAttacking = false;
-        int attackFrames = 4;
 
         public Ducky(KeyHandler kh, int x, int y) {
             super(x, y);
-            getPlayerImage();
+            duckSprite = LoadSave.getSpriteAtlas(LoadSave.DUCKY_ATLAS);
             loadAni();
             this.kh = kh;
-        }
-
-        private void getPlayerImage() {
-            try {
-                duckSprite = ImageIO.read(getClass().getResourceAsStream("/res/duckySprite.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
         private void loadAni() {
@@ -75,6 +66,10 @@ import java.awt.image.BufferedImage;
             if (aniTick >= aniSpeed) {
                 aniTick = 0;
                 spriteLoop++;
+                if (isAttacking && spriteLoop == 4) {
+                    kh.spacePressed = false;
+                    isAttacking = false;
+                }
                 if (spriteLoop >= spriteCol) {
                     spriteLoop = 0;
                 }

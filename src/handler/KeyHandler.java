@@ -58,7 +58,6 @@ public class KeyHandler implements KeyListener {
             direction = "";
         }
         if (i == KeyEvent.VK_SPACE) {
-            spacePressed = false;
         }
     }
     public Boolean getUpPres() { return upPressed; }
