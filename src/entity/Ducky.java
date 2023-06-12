@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
     public class Ducky extends Entity {
+        //attacking animation needs to be fixed
         BufferedImage duckSprite;
         BufferedImage[][] duckAni = new BufferedImage[4][4];
         int spriteLoop = 0;
