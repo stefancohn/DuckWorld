@@ -1,8 +1,8 @@
 package main;
 
 import java.awt.Graphics;
-
 import entity.Ducky;
+import levels.LevelManager;
 import util.Constants;
 
 public class Game implements Runnable {
@@ -10,6 +10,7 @@ public class Game implements Runnable {
     GamePanel panel = new GamePanel(this);
     GameFrame frame = new GameFrame(panel);;
     Ducky duck = new Ducky(panel.kh, 0, 0);
+    LevelManager level = new LevelManager(this);
 
     public Game() {
         frame.add(panel);
@@ -60,5 +61,6 @@ public class Game implements Runnable {
     }
     public void draw(Graphics g) {
         duck.draw(g);
+        level.draw(g);
     }      
 }

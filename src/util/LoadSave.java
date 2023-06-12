@@ -6,14 +6,15 @@ import javax.imageio.ImageIO;
 
 public class LoadSave {
     public static final String DUCKY_ATLAS = "res/duckySprite.png";
-    
+    public static final String LEVEL_ATLAS = "res/mapSprite.png";
+
     public static BufferedImage getSpriteAtlas(String file) {
-        BufferedImage duckSprite = null;
+        BufferedImage img = null;
             try {
-                duckSprite = ImageIO.read(LoadSave.class.getResourceAsStream("/" + file));
+                img = ImageIO.read(LoadSave.class.getResourceAsStream("/" + file));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return duckSprite;
+            return img;
         }
     }
