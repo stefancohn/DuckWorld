@@ -14,7 +14,7 @@ public class GamePanel extends JPanel {
 
     public GamePanel(Game game) {
         //set up game panel
-        this.setPreferredSize(new Dimension(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
+        this.setPreferredSize(new Dimension(Constants.GAME_WIDTH, Constants.GAME_HEIGHT));
         this.setBackground(Color.black);
         this.setFocusable(true);
         this.setDoubleBuffered(true);

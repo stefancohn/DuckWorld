@@ -12,7 +12,7 @@ public class GameFrame extends JFrame {
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Duck World");
-        this.setLocationRelativeTo(null);
+        //this.setLocationRelativeTo(null);
         this.addWindowFocusListener(new WindowFocusListener() {
 
             @Override

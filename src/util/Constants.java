@@ -7,7 +7,7 @@ public class Constants {
     public static final int FPS = 60;
     public static final int UPS = 120;
 
-    public static final int TILES_SIZE_DEF = 25;
+    public static final int TILES_SIZE_DEF = 16;
     public static final float SCALE = 1.0f;
     public static final int TILES_IN_WIDTH = 50;
     public static final int TILES_IN_HEIGHT = 30;

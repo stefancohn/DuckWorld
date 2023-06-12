@@ -60,7 +60,7 @@ public class Game implements Runnable {
         duck.update();
     }
     public void draw(Graphics g) {
-        duck.draw(g);
         level.draw(g);
+        duck.draw(g);
     }      
 }
