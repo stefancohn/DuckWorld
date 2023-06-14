@@ -1,5 +1,7 @@
 package levels;
 
+import entity.Ducky;
+
 public class Level {
     private int[][] levelData;
 
@@ -8,7 +10,8 @@ public class Level {
     }
 
     public int getSpriteIndex (int x, int y) {
-        return levelData[y][x];
-        
+        return levelData[x][y];
     }
+
+    
 }

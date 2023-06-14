@@ -7,9 +7,12 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
     public class Ducky extends Entity {
-        //attacking animation needs to be fixed
         BufferedImage duckSprite;
-        BufferedImage[][] duckAni = new BufferedImage[4][4];
+
+        public static int duckDimensionsIdle = 32; 
+        public static int duckDimensionsSide = 18;
+
+        BufferedImage[][] duckAni = new BufferedImage[5][4];
         int spriteLoop = 0;
         int spriteRow = 0;
         int spriteCol = 0;
@@ -21,17 +24,18 @@ import java.awt.image.BufferedImage;
 
         Boolean isAttacking = false;
 
-        public Ducky(KeyHandler kh, int x, int y) {
-            super(x, y);
+        public Ducky(KeyHandler kh, int x, int y, int width, int height) {
+            super(x, y, width, height);
             duckSprite = LoadSave.getSpriteAtlas(LoadSave.DUCKY_ATLAS);
             loadAni();
             this.kh = kh;
+            initializeHitbox(x, y, width, height);
         }
 
         private void loadAni() {
             for (int i =0; i < duckAni.length; i++) {
                 for (int j = 0; j < duckAni[i].length; j++) {
-                    duckAni[i][j] = duckSprite.getSubimage(j * 16, i * 16, 16, 16);
+                    duckAni[i][j] = duckSprite.getSubimage(j * 16, i * 16, Constants.TILES_SIZE, Constants.TILES_SIZE);
                 }
             }
         }
@@ -42,18 +46,28 @@ import java.awt.image.BufferedImage;
                 case "right":
                     spriteCol = 2;
                     spriteRow = Constants.DUCKY_RIGHT;
+                    hitbox.x += 10;
+                    hitbox.width = Ducky.duckDimensionsSide;
                     break;
                 case "left": 
                     spriteCol = 2;
                     spriteRow = Constants.DUCKY_LEFT;
+                    hitbox.x += 6;
+                    hitbox.width = Ducky.duckDimensionsSide;
                     break;
-                case "attacking":
+                case "attackingRight":
                     spriteCol = 4;
-                    spriteRow = Constants.DUCKY_ATTACK;
+                    spriteRow = Constants.DUCKY_ATTACK_RIGHT;
+                    break;
+                case "attackingLeft":
+                    spriteCol = 4;
+                    spriteRow = Constants.DUCKY_ATTACK_LEFT;
                     break;
                 default: 
                     spriteCol = 0;
                     spriteRow = Constants.DUCKY_IDLE;
+                    hitbox.x=x;
+                    hitbox.width = Ducky.duckDimensionsIdle;
                     break;
             }
             if (spriteRow != startAni) {
@@ -78,29 +92,61 @@ import java.awt.image.BufferedImage;
         }
 
         private void duckyMovement() {
-            if (kh.getUpPres() == true && kh.getDownPres() != true){
-                y -= Constants.DUCKY_SPEED;
-                direction = "up";
+            //reset attack button
+            if (kh.getSpacePres() == true && kh.getRightPres() != true && kh.getLeftPres() != true 
+            && kh.getDownPres() != true && kh.getUpPres() != true && isAttacking != true) {
+                kh.spacePressed = false;
             }
-            else if (kh.getDownPres() == true && kh.getUpPres() != true) {
-                y += Constants.DUCKY_SPEED;
-                direction = "down";
-            }
-            else if (kh.getLeftPres() == true && kh.getRightPres() != true) {
-                x -= Constants.DUCKY_SPEED;
-                direction = "left";
-            }
-            else if (kh.getRightPres() == true && kh.getLeftPres() != true) {
-                x += Constants.DUCKY_SPEED;
-                direction = "right";
-            }
-            else if (kh.getSpacePres() == true) {
-                isAttacking = true;
-                direction = "attacking";
-            }
+            //idle
             if (kh.getRightPres() != true && kh.getLeftPres() != true 
             && kh.getDownPres() != true && kh.getUpPres() != true && kh.getSpacePres() != true) {
                 direction = "";
+            }
+            //hit box and movement fix
+            if (kh.getRightPres() == true && kh.getLeftPres() == true) {
+                direction = "";
+            }
+            //moving up
+            if (kh.getUpPres() == true && kh.getDownPres() != true 
+            && kh.getSpacePres() != true){
+                y -= Constants.DUCKY_SPEED;
+                hitbox.y = y;
+                direction = "up";
+            }
+            //moving down
+            else if (kh.getDownPres() == true && kh.getUpPres() != true
+            && kh.getSpacePres() != true) {
+                direction = "down";
+                if (y < 224) { //224
+                    y+= Constants.DUCKY_SPEED;
+                    hitbox.y = y;
+                }
+            }
+            //moving left
+            else if (kh.getLeftPres() == true && kh.getRightPres() != true
+            && kh.getSpacePres() != true) {
+                x -= Constants.DUCKY_SPEED;
+                hitbox.x = x;
+                direction = "left";
+            }
+            //moving right
+            else if (kh.getRightPres() == true && kh.getLeftPres() != true
+            && kh.getSpacePres() != true) {
+                x += Constants.DUCKY_SPEED;
+                hitbox.x = x;
+                direction = "right";
+            }
+            //attack right
+            else if (kh.getSpacePres() == true && kh.getRightPres() == true 
+            && kh.getLeftPres() != true) {
+                isAttacking = true;
+                direction = "attackingRight";
+            }
+            //attack left
+            else if (kh.getSpacePres() == true && kh.getLeftPres() == true
+            && kh.getRightPres() != true) {
+                isAttacking = true;
+                direction = "attackingLeft";
             }
         }
 
@@ -108,9 +154,11 @@ import java.awt.image.BufferedImage;
             duckyMovement();
             setAni();
             updateAni();
+            System.out.println(direction);
         }
         public void draw(Graphics g) {
             g.drawImage(duckAni[spriteRow][spriteLoop], x, y, 32, 32, null);
+            drawHitbox(g);
         }
 
         public void resetDir() {

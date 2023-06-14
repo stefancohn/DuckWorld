@@ -6,10 +6,12 @@ import levels.LevelManager;
 import util.Constants;
 
 public class Game implements Runnable {
+    //main creates game class, creates thread, panel, frame, duck, and level
+    //panel holds game, and mouse/keyhandlers 
     Thread GameThread = new Thread(this);
     GamePanel panel = new GamePanel(this);
-    GameFrame frame = new GameFrame(panel);;
-    Ducky duck = new Ducky(panel.kh, 0, 0);
+    GameFrame frame = new GameFrame(panel);
+    Ducky duck = new Ducky(panel.kh, 0, 0, Ducky.duckDimensionsIdle, Ducky.duckDimensionsIdle);
     LevelManager level = new LevelManager(this);
 
     public Game() {
@@ -24,6 +26,18 @@ public class Game implements Runnable {
     
     public Ducky getDucky() {
         return duck;
+    }
+
+    public GamePanel getPanel() {
+        return panel;
+    }
+
+    public GameFrame getFrame() {
+        return frame;
+    }
+
+    public Game getGame() {
+        return this;
     }
 
     public void windowFocusLost() {
