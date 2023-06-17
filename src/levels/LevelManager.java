@@ -25,6 +25,10 @@ public class LevelManager {
         }
     }
 
+    public Level getCurrentLevel() {
+        return levelOne;
+    }
+
     public void update() {
 
     }

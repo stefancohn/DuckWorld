@@ -3,6 +3,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+import handler.KeyHandler;
+import util.Collisions;
+import util.Constants;
+
 public abstract class Entity {
     protected int x;
     protected int y;
@@ -15,7 +19,7 @@ public abstract class Entity {
         this.x=x;
         this.y=y;
         this.width = width;
-        this.height = height;
+        this.height = height; 
     }
 
     public void initializeHitbox(int x, int y, int width, int height) {
@@ -29,6 +33,21 @@ public abstract class Entity {
 
     public Rectangle getHitbox() {
         return hitbox;
+    }
+
+    public void updateHitbox(int x, int y) {
+        hitbox.x = x;
+        hitbox.y = y;
+    }
+
+    public void updateHitboxRight(int x) {
+        hitbox.x = x + 9;
+        hitbox.width = Ducky.duckDimensionsSide;
+    }
+
+    public void updateHitboxLeft(int x) {
+        hitbox.x = x + 6;
+        hitbox.width = Ducky.duckDimensionsSide;
     }
 
 }

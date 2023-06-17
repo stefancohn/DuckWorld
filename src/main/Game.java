@@ -11,13 +11,14 @@ public class Game implements Runnable {
     Thread GameThread = new Thread(this);
     GamePanel panel = new GamePanel(this);
     GameFrame frame = new GameFrame(panel);
-    Ducky duck = new Ducky(panel.kh, 0, 0, Ducky.duckDimensionsIdle, Ducky.duckDimensionsIdle);
-    LevelManager level = new LevelManager(this);
+    Ducky duck = new Ducky(panel.kh, 16, 16, 40, 40);
+    LevelManager levelManager = new LevelManager(this);
 
     public Game() {
         frame.add(panel);
         frame.pack();
         frame.setVisible(true);
+        duck.getLevelData(levelManager.getCurrentLevel().getLevelData());
     }
 
     public void startGameThread() {
@@ -74,7 +75,7 @@ public class Game implements Runnable {
         duck.update();
     }
     public void draw(Graphics g) {
-        level.draw(g);
+        levelManager.draw(g);
         duck.draw(g);
     }      
 }
