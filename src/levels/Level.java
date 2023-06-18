@@ -1,7 +1,5 @@
 package levels;
 
-import entity.Ducky;
-
 public class Level {
     private int[][] levelData;
 

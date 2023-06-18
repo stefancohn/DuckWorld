@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 public class LoadSave {
     public static final String DUCKY_ATLAS = "res/duckySprite.png";
     public static final String LEVEL_ATLAS = "res/mapSprite.png";
+
     public static final String LEVEL_ONE = "res/levelOne.png";
 
     public static BufferedImage getSpriteAtlas(String file) {
@@ -20,9 +21,9 @@ public class LoadSave {
             return img;
         }
 
-    public static int[][] getLevelData() {
+    public static int[][] getLevelData(String file) {
         int[][] levelData = new int[Constants.TILES_IN_HEIGHT] [Constants.TILES_IN_WIDTH];
-        BufferedImage img = getSpriteAtlas(LEVEL_ONE);
+        BufferedImage img = getSpriteAtlas(file);
 
         for (int i = 0; i < img.getHeight(); i++) {
             for (int j = 0; j < img.getWidth(); j++) {

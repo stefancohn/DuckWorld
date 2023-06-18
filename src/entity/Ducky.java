@@ -24,6 +24,10 @@ import java.awt.image.BufferedImage;
         String direction = "";
 
         Boolean isAttacking = false;
+
+        Boolean jumping = false;
+        public float jumpSpeed = -2.25f;
+        public int gravity = 2;
         
         int[][] levelData;
 
@@ -95,7 +99,9 @@ import java.awt.image.BufferedImage;
         }
 
         private void duckyMovementAndHitbox() {
-            String previousDirection = direction;
+            if (!Collisions.isOnFloor(hitbox.x, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                y += gravity;
+            }
             //reset attack button
             if (kh.getSpacePres() == true && kh.getRightPres() != true && kh.getLeftPres() != true 
             && kh.getDownPres() != true && kh.getUpPres() != true && isAttacking != true) {
@@ -186,6 +192,7 @@ import java.awt.image.BufferedImage;
                 if (!Collisions.canMoveHere(hitbox.x + 13, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                     x = x - Constants.DUCKY_SPEED;
                     updateHitbox(x, y);
+                    System.out.println("OOF");
                 }
                 x += Constants.DUCKY_SPEED;
                 direction = "right";
@@ -218,10 +225,10 @@ import java.awt.image.BufferedImage;
             duckyMovementAndHitbox();
             setAni();
             updateAni();
-            float xI = hitbox.x / Constants.TILES_SIZE;
-            float yI = hitbox.y / Constants.TILES_SIZE;
-            //System.out.println(x);
-            //System.out.println(y);
+            /*float xIndex = x / Constants.TILES_SIZE;
+		    float yIndex = y / Constants.TILES_SIZE;
+            System.out.println("x: " + xIndex);
+            System.out.println("y: " + yIndex);*/
         }
         public void draw(Graphics g) {
             g.drawImage(duckAni[spriteRow][spriteLoop], x, y, width, height, null);
