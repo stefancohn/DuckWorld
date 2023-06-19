@@ -13,6 +13,7 @@ public abstract class Entity {
     protected int width;
     protected int height;
     protected Rectangle hitbox;
+    protected boolean offsetApplied = false;
 
 
     public Entity(int x, int y, int width, int height) {
@@ -35,19 +36,17 @@ public abstract class Entity {
         return hitbox;
     }
 
-    public void updateHitbox(int x, int y) {
-        hitbox.x = x;
-        hitbox.y = y;
-    }
-
     public void updateHitboxRight(int x) {
-        hitbox.x = x + 9;
+        hitbox.x=x + 10;
         hitbox.width = Ducky.duckDimensionsSide;
     }
 
     public void updateHitboxLeft(int x) {
-        hitbox.x = x + 6;
+        //hitbox.x += 6;
         hitbox.width = Ducky.duckDimensionsSide;
     }
 
+    public void setBoxX(int x) {
+        hitbox.x = x;
+    }
 }

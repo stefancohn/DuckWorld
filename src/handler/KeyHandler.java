@@ -42,7 +42,7 @@ public class KeyHandler implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int i = e.getKeyCode();
         if (i == KeyEvent.VK_W) {
-            upPressed = false;
+            //upPressed = false;
             direction = "";
         }
         if (i == KeyEvent.VK_S) {

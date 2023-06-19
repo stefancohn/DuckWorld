@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 
         public static int duckDimensionsIdle = 38; 
         public static int duckDimensionsSide = 22;
+        public static int duckOffsetX = 10;
 
         BufferedImage[][] duckAni = new BufferedImage[5][4];
         int spriteLoop = 0;
@@ -25,8 +26,11 @@ import java.awt.image.BufferedImage;
 
         Boolean isAttacking = false;
 
+        //for making sure the jump input can be properly turned off/on
         Boolean jumping = false;
-        public float jumpSpeed = -2.25f;
+        Boolean inAir = false;
+        public int airSpeed = 0;
+        public int jumpSpeed = -100;
         public int gravity = 2;
         
         int[][] levelData;
@@ -74,7 +78,6 @@ import java.awt.image.BufferedImage;
                     spriteCol = 0;
                     spriteRow = Constants.DUCKY_IDLE;
                     hitbox.width = Ducky.duckDimensionsIdle;
-                    updateHitbox(x, y);
                     break;
             }
             if (spriteRow != startAni) {
@@ -99,9 +102,6 @@ import java.awt.image.BufferedImage;
         }
 
         private void duckyMovementAndHitbox() {
-            if (!Collisions.isOnFloor(hitbox.x, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                y += gravity;
-            }
             //reset attack button
             if (kh.getSpacePres() == true && kh.getRightPres() != true && kh.getLeftPres() != true 
             && kh.getDownPres() != true && kh.getUpPres() != true && isAttacking != true) {
@@ -112,98 +112,54 @@ import java.awt.image.BufferedImage;
              && kh.getSpacePres() != true && kh.getDownPres() != true && kh.getUpPres() != true) {
                 //move pos back when going to idle pos
                 if (!Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    x = x - 4;
-                    updateHitbox(x, y);
+                    hitbox.x -= 4;
                 } else if (!Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    x = x + 4;
-                    updateHitbox(x, y);
+                    hitbox.x += 4;
                 }
                 direction = "";
+                updateXandY(hitbox.x, hitbox.y);
             }
             //hit box and movement fix
             if (kh.getRightPres() == true && kh.getLeftPres() == true) {
                 direction = "";
                 //move pos back when going to idle pos
                 if (!Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    x = x - 4;
-                    updateHitbox(x, y);
+                    hitbox.x -= 4;
                 } else if (!Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    x = x + 4;
-                    updateHitbox(x, y);
+                    hitbox.x += 4;
                 }
+                updateXandY(hitbox.x, hitbox.y);
+            }
+            //moving left
+            if (kh.getLeftPres() == true && kh.getRightPres() != true
+            && kh.getSpacePres() != true  && Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                hitbox.x -= Constants.DUCKY_SPEED;
+                direction = "left";
+                updateHitboxLeft(x);
+                updateXandY(hitbox.x, hitbox.y);
+            }
+            //moving right
+            if (kh.getRightPres() == true && kh.getLeftPres() != true
+            && kh.getSpacePres() != true && Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                hitbox.x += Constants.DUCKY_SPEED;
+                direction = "right";
+                updateHitboxRight(hitbox.x);
+                updateXandY(hitbox.x, hitbox.y);
             }
             //moving up
             if (kh.getUpPres() == true && kh.getDownPres() != true 
             && kh.getSpacePres() != true && Collisions.canMoveHere(hitbox.x, hitbox.y - Constants.DUCKY_SPEED, hitbox.width, hitbox.height, levelData)){
-                    direction = "";
-                    y -= Constants.DUCKY_SPEED;
-                    updateHitbox(x, y);
+                direction = "";
+                hitbox.y += jumpSpeed;
+                kh.upPressed = false;
+                updateXandY(hitbox.x, hitbox.y);
             }
             //moving down
-            if (kh.getDownPres() == true && kh.getUpPres() != true
-            && kh.getSpacePres() != true && Collisions.canMoveHere(hitbox.x, hitbox.y + Constants.DUCKY_SPEED, hitbox.width, hitbox.height, levelData)) {
+            if (kh.getDownPres() && !kh.getUpPres()
+            && !kh.getSpacePres() && Collisions.canMoveHere(hitbox.x, hitbox.y + Constants.DUCKY_SPEED, hitbox.width, hitbox.height, levelData)) {
+                hitbox.y += Constants.DUCKY_SPEED;
                 direction = "";
-                y+= Constants.DUCKY_SPEED;
-                updateHitbox(x, y);
-            }
-            //moving left and up 
-            if (kh.getRightPres() != true && kh.getLeftPres() == true
-            && kh.getSpacePres() != true && kh.getUpPres() == true) {
-                if (!Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    x = x + Constants.DUCKY_SPEED;
-                    updateHitbox(x, y);
-                }
-                x -= Constants.DUCKY_SPEED;
-                direction = "left";
-                updateHitboxLeft(x);
-            }
-            //moving left and down 
-            else if (kh.getRightPres() != true && kh.getLeftPres() == true
-            && kh.getSpacePres() != true && kh.getDownPres() == true) {
-                if (!Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    x = x + Constants.DUCKY_SPEED;
-                    updateHitbox(x, y);
-                }
-                x -= Constants.DUCKY_SPEED;
-                direction = "left";
-                updateHitboxLeft(x);
-            }
-            //moving left
-            else if (kh.getLeftPres() == true && kh.getRightPres() != true
-            && kh.getSpacePres() != true  && Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                x -= Constants.DUCKY_SPEED;
-                direction = "left";
-                updateHitboxLeft(x);
-            }
-            //moving right and up 
-            if (kh.getRightPres() == true && kh.getLeftPres() != true
-            && kh.getSpacePres() != true && kh.getUpPres() == true) {
-                if (!Collisions.canMoveHere(hitbox.x + 13, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    x = x - Constants.DUCKY_SPEED;
-                    updateHitbox(x, y);
-                }
-                x += Constants.DUCKY_SPEED;
-                direction = "right";
-                updateHitboxRight(x);
-            }
-            //moving right and down
-            else if (kh.getRightPres() == true && kh.getLeftPres() != true
-            && kh.getSpacePres() != true && kh.getDownPres() == true) {
-                if (!Collisions.canMoveHere(hitbox.x + 13, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    x = x - Constants.DUCKY_SPEED;
-                    updateHitbox(x, y);
-                    System.out.println("OOF");
-                }
-                x += Constants.DUCKY_SPEED;
-                direction = "right";
-                updateHitboxRight(x);
-            }
-            //moving right
-            else if (kh.getRightPres() == true && kh.getLeftPres() != true
-            && kh.getSpacePres() != true && Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                x += Constants.DUCKY_SPEED;
-                direction = "right";
-                updateHitboxRight(x);
+                updateXandY(hitbox.x, hitbox.y);
             }
             //attack right
             if (kh.getSpacePres() == true && kh.getRightPres() == true 
@@ -219,19 +175,29 @@ import java.awt.image.BufferedImage;
                 direction = "attackingLeft";
                 updateHitboxLeft(x);
             }
+            //gravity
+            if (!Collisions.isOnFloor(hitbox.x, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                hitbox.y += gravity;
+                updateXandY(hitbox.x, hitbox.y);
+            }
+        }
+
+        public void updateXandY(int x, int y) { 
+            this.x = x;
+            this.y = y;
         }
 
         public void update() {
             duckyMovementAndHitbox();
             setAni();
             updateAni();
-            /*float xIndex = x / Constants.TILES_SIZE;
-		    float yIndex = y / Constants.TILES_SIZE;
-            System.out.println("x: " + xIndex);
-            System.out.println("y: " + yIndex);*/
+            //float xIndex = x / Constants.TILES_SIZE;
+		    //float yIndex = y / Constants.TILES_SIZE;
+           // System.out.println("x: " + x);
+            //System.out.println("y: " + y);
         }
         public void draw(Graphics g) {
-            g.drawImage(duckAni[spriteRow][spriteLoop], x, y, width, height, null);
+            g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x, hitbox.y, width, height, null);
             drawHitbox(g);
         }
 
