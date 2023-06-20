@@ -30,7 +30,7 @@ import java.awt.image.BufferedImage;
         Boolean jumping = false;
         Boolean inAir = false;
         public int airSpeed = 0;
-        public int jumpSpeed = -100;
+        public int jumpHeight = -80;
         public int gravity = 2;
         
         int[][] levelData;
@@ -117,7 +117,6 @@ import java.awt.image.BufferedImage;
                     hitbox.x += 4;
                 }
                 direction = "";
-                updateXandY(hitbox.x, hitbox.y);
             }
             //hit box and movement fix
             if (kh.getRightPres() == true && kh.getLeftPres() == true) {
@@ -128,7 +127,6 @@ import java.awt.image.BufferedImage;
                 } else if (!Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                     hitbox.x += 4;
                 }
-                updateXandY(hitbox.x, hitbox.y);
             }
             //moving left
             if (kh.getLeftPres() == true && kh.getRightPres() != true
@@ -136,30 +134,26 @@ import java.awt.image.BufferedImage;
                 hitbox.x -= Constants.DUCKY_SPEED;
                 direction = "left";
                 updateHitboxLeft(x);
-                updateXandY(hitbox.x, hitbox.y);
             }
             //moving right
             if (kh.getRightPres() == true && kh.getLeftPres() != true
             && kh.getSpacePres() != true && Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                 hitbox.x += Constants.DUCKY_SPEED;
                 direction = "right";
-                updateHitboxRight(hitbox.x);
-                updateXandY(hitbox.x, hitbox.y);
+                updateHitboxRight(x);
             }
-            //moving up
+            //jump
             if (kh.getUpPres() == true && kh.getDownPres() != true 
             && kh.getSpacePres() != true && Collisions.canMoveHere(hitbox.x, hitbox.y - Constants.DUCKY_SPEED, hitbox.width, hitbox.height, levelData)){
                 direction = "";
-                hitbox.y += jumpSpeed;
+                hitbox.y += jumpHeight;
                 kh.upPressed = false;
-                updateXandY(hitbox.x, hitbox.y);
             }
             //moving down
             if (kh.getDownPres() && !kh.getUpPres()
             && !kh.getSpacePres() && Collisions.canMoveHere(hitbox.x, hitbox.y + Constants.DUCKY_SPEED, hitbox.width, hitbox.height, levelData)) {
                 hitbox.y += Constants.DUCKY_SPEED;
                 direction = "";
-                updateXandY(hitbox.x, hitbox.y);
             }
             //attack right
             if (kh.getSpacePres() == true && kh.getRightPres() == true 
@@ -173,18 +167,11 @@ import java.awt.image.BufferedImage;
             && kh.getRightPres() != true) {
                 isAttacking = true;
                 direction = "attackingLeft";
-                updateHitboxLeft(x);
             }
             //gravity
             if (!Collisions.isOnFloor(hitbox.x, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                 hitbox.y += gravity;
-                updateXandY(hitbox.x, hitbox.y);
             }
-        }
-
-        public void updateXandY(int x, int y) { 
-            this.x = x;
-            this.y = y;
         }
 
         public void update() {
@@ -197,8 +184,16 @@ import java.awt.image.BufferedImage;
             //System.out.println("y: " + y);
         }
         public void draw(Graphics g) {
-            g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x, hitbox.y, width, height, null);
-            drawHitbox(g);
+            if (direction == "right" || direction == "attackingRight") {
+                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 10, hitbox.y, width, height, null);
+                drawHitbox(g);
+            } else if (direction == "left" || direction == "attackingLeft") {
+                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 6, hitbox.y, width, height, null);
+                drawHitbox(g);
+            } else {
+                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x, hitbox.y, width, height, null);
+                drawHitbox(g);
+            }
         }
 
         public void resetDir() {

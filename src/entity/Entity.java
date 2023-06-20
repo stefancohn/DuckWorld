@@ -37,16 +37,12 @@ public abstract class Entity {
     }
 
     public void updateHitboxRight(int x) {
-        hitbox.x=x + 10;
+        //hitbox.x = x + 10;
         hitbox.width = Ducky.duckDimensionsSide;
     }
 
     public void updateHitboxLeft(int x) {
-        //hitbox.x += 6;
+        //hitbox.x = x + 6;
         hitbox.width = Ducky.duckDimensionsSide;
-    }
-
-    public void setBoxX(int x) {
-        hitbox.x = x;
     }
 }
