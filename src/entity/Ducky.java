@@ -27,11 +27,12 @@ import java.awt.image.BufferedImage;
         Boolean isAttacking = false;
 
         //for making sure the jump input can be properly turned off/on
-        Boolean jumping = false;
-        Boolean inAir = false;
-        public int airSpeed = 0;
+        Boolean jump = false;
+        Boolean inAir = true;
+        public int airSpeed = -7;
         public int jumpHeight = -80;
         public int gravity = 2;
+        int yPosBeforeJump;
         
         int[][] levelData;
 
@@ -103,13 +104,13 @@ import java.awt.image.BufferedImage;
 
         private void duckyMovementAndHitbox() {
             //reset attack button
-            if (kh.getSpacePres() == true && kh.getRightPres() != true && kh.getLeftPres() != true 
-            && kh.getDownPres() != true && kh.getUpPres() != true && isAttacking != true) {
+            if (kh.getSpacePres() && !kh.getRightPres() && !kh.getLeftPres() 
+            && !kh.getDownPres() && !kh.getUpPres() && !isAttacking) {
                 kh.spacePressed = false;
             }
             //idle
-            if (kh.getRightPres() != true && kh.getLeftPres() != true 
-             && kh.getSpacePres() != true && kh.getDownPres() != true && kh.getUpPres() != true) {
+            if (!kh.getRightPres() && !kh.getLeftPres()
+             && !kh.getSpacePres() && !kh.getDownPres() && !kh.getUpPres()) {
                 //move pos back when going to idle pos
                 if (!Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                     hitbox.x -= 4;
@@ -119,7 +120,7 @@ import java.awt.image.BufferedImage;
                 direction = "";
             }
             //hit box and movement fix
-            if (kh.getRightPres() == true && kh.getLeftPres() == true) {
+            if (kh.getRightPres() && kh.getLeftPres()) {
                 direction = "";
                 //move pos back when going to idle pos
                 if (!Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
@@ -129,49 +130,64 @@ import java.awt.image.BufferedImage;
                 }
             }
             //moving left
-            if (kh.getLeftPres() == true && kh.getRightPres() != true
-            && kh.getSpacePres() != true  && Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+            if (kh.getLeftPres() && !kh.getRightPres()
+            && !kh.getSpacePres() && Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                 hitbox.x -= Constants.DUCKY_SPEED;
                 direction = "left";
                 updateHitboxLeft(x);
             }
             //moving right
-            if (kh.getRightPres() == true && kh.getLeftPres() != true
-            && kh.getSpacePres() != true && Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+            if (kh.getRightPres() && !kh.getLeftPres()
+            && !kh.getSpacePres() && Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                 hitbox.x += Constants.DUCKY_SPEED;
                 direction = "right";
                 updateHitboxRight(x);
             }
             //jump
-            if (kh.getUpPres() == true && kh.getDownPres() != true 
-            && kh.getSpacePres() != true && Collisions.canMoveHere(hitbox.x, hitbox.y - Constants.DUCKY_SPEED, hitbox.width, hitbox.height, levelData)){
+            if (kh.getUpPres() && !kh.getDownPres() && !inAir 
+            && !kh.getSpacePres() && Collisions.canMoveHere(hitbox.x, hitbox.y - Constants.DUCKY_SPEED, hitbox.width, hitbox.height, levelData)){
                 direction = "";
-                hitbox.y += jumpHeight;
-                kh.upPressed = false;
-            }
-            //moving down
-            if (kh.getDownPres() && !kh.getUpPres()
-            && !kh.getSpacePres() && Collisions.canMoveHere(hitbox.x, hitbox.y + Constants.DUCKY_SPEED, hitbox.width, hitbox.height, levelData)) {
-                hitbox.y += Constants.DUCKY_SPEED;
-                direction = "";
+                jump();
+                
             }
             //attack right
-            if (kh.getSpacePres() == true && kh.getRightPres() == true 
-            && kh.getLeftPres() != true) {
+            if (kh.getSpacePres() && kh.getRightPres()
+            && !kh.getLeftPres()) {
                 isAttacking = true;
                 direction = "attackingRight";
                 updateHitboxRight(x);
             }
             //attack left
-            if (kh.getSpacePres() == true && kh.getLeftPres() == true
-            && kh.getRightPres() != true) {
+            if (kh.getSpacePres() && kh.getLeftPres()
+            && !kh.getRightPres()) {
                 isAttacking = true;
                 direction = "attackingLeft";
+            }
+            if (inAir && jump) {
+                if (Collisions.canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData)){
+                    hitbox.y += airSpeed;
+                    if (hitbox.y < yPosBeforeJump + jumpHeight) {
+                        jump = false; 
+                        kh.upPressed = false;
+                    }
+                }
+            }
+            if (!inAir) {
+                yPosBeforeJump = hitbox.y;
             }
             //gravity
             if (!Collisions.isOnFloor(hitbox.x, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                 hitbox.y += gravity;
+                inAir = true;
+            } else if (Collisions.isOnFloor(hitbox.x, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                inAir = false;
+                jump = false;
             }
+        }
+
+        public void jump() {
+            inAir = true;
+            jump = true;
         }
 
         public void update() {
@@ -180,8 +196,8 @@ import java.awt.image.BufferedImage;
             updateAni();
             //float xIndex = x / Constants.TILES_SIZE;
 		    //float yIndex = y / Constants.TILES_SIZE;
-           // System.out.println("x: " + x);
-            //System.out.println("y: " + y);
+            System.out.println(jump);
+            System.out.println(inAir);
         }
         public void draw(Graphics g) {
             if (direction == "right" || direction == "attackingRight") {
