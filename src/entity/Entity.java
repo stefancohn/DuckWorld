@@ -36,11 +36,7 @@ public abstract class Entity {
         return hitbox;
     }
 
-    public void updateHitboxRight(int x) {
-        hitbox.width = Ducky.duckDimensionsSide;
-    }
-
-    public void updateHitboxLeft(int x) {
+    public void updateHitboxSide() {
         hitbox.width = Ducky.duckDimensionsSide;
     }
 }

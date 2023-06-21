@@ -20,7 +20,7 @@ public class Collisions {
     }
 
     public static Boolean isOnFloor(int x, int y, int width, int height, int[][] levelData) {
-        if (!canMoveHere(x, y + 2, width, height, levelData)) {
+        if (!canMoveHere(x, y + Constants.GRAVITY, width, height, levelData)) {
             return true;
         }
         return false;
