@@ -3,10 +3,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import handler.KeyHandler;
-import util.Collisions;
-import util.Constants;
-
 public abstract class Entity {
     protected int x;
     protected int y;
