@@ -1,9 +1,13 @@
 package util;
 
+import java.awt.Rectangle;
+
+import entity.Ducky;
+
 public class Collisions {
     private static Boolean isSolid(int x, int y, int[][] levelData) {
         //checks if it hits side of screen
-        if (x<=0 || x>= Constants.GAME_WIDTH) {
+        if (x<0 || x>= Constants.GAME_WIDTH) {
             return true;
         }
         else if(y<=0 || y>= Constants.GAME_HEIGHT) {
@@ -24,6 +28,34 @@ public class Collisions {
             return true;
         }
         return false;
+    }
+
+    public static int getXPosNextToWallLeft(Rectangle hitbox) {
+        int currentTile = (hitbox.x/Constants.TILES_SIZE);
+        return currentTile * Constants.TILES_SIZE;
+    }
+
+    public static int getXposNextToWallRightMoving(Rectangle hitbox) {
+        int currentTile = ((hitbox.x + hitbox.width)/Constants.TILES_SIZE);
+        currentTile = ((currentTile + 1) * 16);
+        int xOffset = currentTile - Ducky.duckDimensionsSide;
+        return xOffset - 1;
+    }
+    public static int getXposNextToWallRightIdle(Rectangle hitbox) {
+        int currentTile = ((hitbox.x + hitbox.width)/Constants.TILES_SIZE);
+        currentTile = ((currentTile + 1) * 16);
+        int xOffset = currentTile - Ducky.duckDimensionsIdle;
+        return xOffset - 1;
+    }
+    public static int getYPosCeilingAbove(Rectangle hitbox) {
+        int currentTile = (hitbox.y/Constants.TILES_SIZE);
+        return currentTile * Constants.TILES_SIZE;
+    }
+    public static int getYposFloorBelow(Rectangle hitbox) {
+        int currentTile = ((hitbox.y + hitbox.height)/Constants.TILES_SIZE);
+        currentTile = ((currentTile + 1) * 16);
+        int yOffset = currentTile - hitbox.height;
+        return yOffset - 1;
     }
 
     public static Boolean canMoveHere(int x, int y, int width, int height, int[][] levelData){

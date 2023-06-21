@@ -10,9 +10,8 @@ import java.awt.image.BufferedImage;
     public class Ducky extends Entity {
         BufferedImage duckSprite;
 
-        public static int duckDimensionsIdle = 38; 
-        public static int duckDimensionsSide = 22;
-        public static int duckOffsetX = 10;
+        public static int duckDimensionsIdle = 37; 
+        public static int duckDimensionsSide = 21;
 
         BufferedImage[][] duckAni = new BufferedImage[5][4];
         int spriteLoop = 0;
@@ -111,21 +110,21 @@ import java.awt.image.BufferedImage;
             if (!kh.getRightPres() && !kh.getLeftPres()
              && !kh.getSpacePres() && !kh.getDownPres() && !kh.getUpPres()) {
                 //move pos back when going to idle pos
-                if (!Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    hitbox.x -= 4;
-                } else if (!Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    hitbox.x += 4;
-                }
                 direction = "";
+                if (!Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                    hitbox.x = Collisions.getXposNextToWallRightIdle(hitbox);
+                } else if (!Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                    hitbox.x = Collisions.getXPosNextToWallLeft(hitbox);
+                }
             }
             //hit box and movement fix
             if (kh.getRightPres() && kh.getLeftPres()) {
                 direction = "";
                 //move pos back when going to idle pos
                 if (!Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    hitbox.x -= 4;
+                    hitbox.x = Collisions.getXposNextToWallRightIdle(hitbox);
                 } else if (!Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    hitbox.x += 4;
+                    hitbox.x = Collisions.getXPosNextToWallLeft(hitbox);
                 }
             }
             //moving left
@@ -133,6 +132,8 @@ import java.awt.image.BufferedImage;
             && !kh.getSpacePres()) {
                 if (Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)){
                     hitbox.x -= Constants.DUCKY_SPEED;
+                } else {
+                    hitbox.x = Collisions.getXPosNextToWallLeft(hitbox);
                 }
                 direction = "left";
                 updateHitboxSide();
@@ -140,11 +141,13 @@ import java.awt.image.BufferedImage;
             //moving right
             if (kh.getRightPres() && !kh.getLeftPres()
             && !kh.getSpacePres()) {
-                if (Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
-                    hitbox.x += Constants.DUCKY_SPEED;
-                }
                 direction = "right";
                 updateHitboxSide();
+                if (Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                    hitbox.x += Constants.DUCKY_SPEED;
+                } else {
+                    hitbox.x = Collisions.getXposNextToWallRightMoving(hitbox);
+                }
             }
             //jump
             if (kh.getUpPres() && !kh.getDownPres() && !inAir 
@@ -190,6 +193,7 @@ import java.awt.image.BufferedImage;
             } else if (Collisions.isOnFloor(hitbox.x, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                 inAir = false;
                 jump = false;
+                hitbox.y = Collisions.getYposFloorBelow(hitbox);
                 yPosBeforeJump = hitbox.y;
             }
         }
@@ -211,7 +215,7 @@ import java.awt.image.BufferedImage;
                 g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 10, hitbox.y, width, height, null);
                 //drawHitbox(g);
             } else if (direction == "left" || direction == "attackingLeft") {
-                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 6, hitbox.y, width, height, null);
+                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 8, hitbox.y, width, height, null);
                 //drawHitbox(g);
             } else {
                 g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x, hitbox.y, width, height, null);
