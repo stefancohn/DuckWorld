@@ -12,6 +12,7 @@ public class Constants {
     public static final int TILES_IN_WIDTH = 50;
     public static final int TILES_IN_HEIGHT = 30;
     public static final int TILES_SIZE = (int)(TILES_SIZE_DEF * SCALE);
+    //800 x 480
     public static final int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public static final int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 

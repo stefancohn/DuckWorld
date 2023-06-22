@@ -152,7 +152,6 @@ import java.awt.image.BufferedImage;
             //jump
             if (kh.getUpPres() && !kh.getDownPres() && !inAir 
             && !kh.getSpacePres()){
-                direction = "";
                 if (!jump) {
                     jump();
                 }
@@ -207,8 +206,6 @@ import java.awt.image.BufferedImage;
             duckyMovementAndHitbox();
             setAni();
             updateAni();
-            float xIndex = hitbox.x/ Constants.TILES_SIZE;
-		    float yIndex = hitbox.y / Constants.TILES_SIZE;
         }
         public void draw(Graphics g) {
             if (direction == "right" || direction == "attackingRight") {

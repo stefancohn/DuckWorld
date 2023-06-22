@@ -14,9 +14,9 @@ public class Collisions {
             return true;
         } 
         //check blocks by ensuring only runs into background block
-        float xIndex = x / Constants.TILES_SIZE;
-		float yIndex = y / Constants.TILES_SIZE;
-        int value = levelData[(int) yIndex][(int) xIndex];
+        int xIndex = x / Constants.TILES_SIZE;
+		int yIndex = y / Constants.TILES_SIZE;
+        int value = levelData[yIndex][xIndex];
         if (value != 4) {
             return true;
         }

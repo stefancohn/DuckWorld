@@ -19,6 +19,7 @@ public class GamePanel extends JPanel {
         this.setFocusable(true);
         this.setDoubleBuffered(true);
         this.addKeyListener(kh);
+        this.addMouseMotionListener(mh);
         this.addMouseListener(mh);
         this.game = game;
     }

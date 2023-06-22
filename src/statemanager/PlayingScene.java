@@ -1,19 +1,26 @@
 package statemanager;
 
 import java.awt.Graphics;
+import entity.Ducky;
+import levels.LevelManager;
 
 public class PlayingScene extends Scene {
+    Ducky duck;
+    LevelManager levelManager = new LevelManager();
 
-    @Override
-    public void update() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public PlayingScene(Ducky duck) {
+        this.duck = duck;
+        duck.getLevelData(levelManager.getCurrentLevel().getLevelData());
     }
 
     @Override
+    public void update() {
+        duck.update();
+    }
+    @Override
     public void draw(Graphics g) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'draw'");
+        levelManager.draw(g);
+        duck.draw(g);
     }
     
 }

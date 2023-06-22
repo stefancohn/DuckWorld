@@ -2,26 +2,27 @@ package main;
 
 import java.awt.Graphics;
 import entity.Ducky;
-import levels.LevelManager;
-import util.Constants;
+import handler.KeyHandler;
+import util.*;
+import statemanager.*;
 
 public class Game implements Runnable {
-    //main creates game class, creates thread, panel, frame, duck, and levelManager
-    //panel holds game, and mouse/keyhandlers 
     public static Game game = null;
     Thread GameThread = new Thread(this);
     GamePanel panel = new GamePanel(this);
     GameFrame frame = new GameFrame(panel);
+
     Ducky duck = new Ducky(panel.kh, 16, 16, 40, 40);
-    LevelManager levelManager = new LevelManager(this);
+
+    Scene currentScene;
+    int sceneNum = Constants.SCENE_MENU;
+
 
     public Game() {
+        changeState(sceneNum);
         frame.add(panel);
         frame.pack();
         frame.setVisible(true);
-        //to give ducky necessary level data, we got to levelManager which gets
-        //the level we are working wtih thich returns the levelData
-        duck.getLevelData(levelManager.getCurrentLevel().getLevelData());
     }
     //singleton game panel
     public static Game getGame() {
@@ -31,24 +32,29 @@ public class Game implements Runnable {
         return game;
     }
 
+    //start game
     public void startGameThread() {
         GameThread.start();
     }
-    
-    public Ducky getDucky() {
-        return duck;
-    }
 
-    public GamePanel getPanel() {
-        return panel;
-    }
-
-    public GameFrame getFrame() {
-        return frame;
-    }
-
+    //get rid of lost focus bug
     public void windowFocusLost() {
         duck.resetDir();
+    }
+
+    //change state
+    public void changeState(int sceneNum) {
+        switch (sceneNum) {
+            case Constants.SCENE_MENU: 
+                currentScene = new MenuScene(panel.mh);
+                break;
+            case Constants.SCENE_PLAYING:
+                currentScene = new PlayingScene(duck);
+                break;
+            default:
+                currentScene = null;
+                break;
+        }
     }
 
     @Override
@@ -77,11 +83,11 @@ public class Game implements Runnable {
         }
     }
 
+    //all rendering and updating stems from here 
     public void update() {
-        duck.update();
+        currentScene.update();
     }
     public void draw(Graphics g) {
-        levelManager.draw(g);
-        duck.draw(g);
+        currentScene.draw(g);
     }      
 }

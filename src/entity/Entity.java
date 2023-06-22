@@ -4,12 +4,14 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public abstract class Entity {
+    //abstract class that allows its instance variables (relevant to constructor)
+    //and methods to be inherited by subclasses
+
     protected int x;
     protected int y;
     protected int width;
     protected int height;
     protected Rectangle hitbox;
-    protected boolean offsetApplied = false;
 
 
     public Entity(int x, int y, int width, int height) {

@@ -11,6 +11,7 @@ public class LoadSave {
 
     public static final String LEVEL_ONE = "res/levelOne.png";
 
+    //method to pull BufferedImage from file 
     public static BufferedImage getSpriteAtlas(String file) {
         BufferedImage img = null;
             try {
@@ -20,8 +21,10 @@ public class LoadSave {
             }
             return img;
         }
-
-    public static int[][] getLevelData(String file) {
+    
+        //grabs the Red value of each tile of level map and rerturns it as 
+        //a 2d array
+    public static int[][] getLevelDataRed(String file) {
         int[][] levelData = new int[Constants.TILES_IN_HEIGHT] [Constants.TILES_IN_WIDTH];
         BufferedImage img = getSpriteAtlas(file);
 

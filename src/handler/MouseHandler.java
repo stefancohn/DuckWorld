@@ -3,8 +3,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MouseHandler extends MouseAdapter {
-    public boolean isPressed = false;
-    public double x = 0.0, y = 0.0;
+    public boolean clicked = false;
+    public int x, y;
 
     @Override
     public void mouseMoved(MouseEvent e) {
@@ -14,11 +14,11 @@ public class MouseHandler extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        isPressed = true;
+        clicked = true;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        isPressed = false;
+        clicked = false;
     }
 }
