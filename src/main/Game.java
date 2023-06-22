@@ -6,8 +6,9 @@ import levels.LevelManager;
 import util.Constants;
 
 public class Game implements Runnable {
-    //main creates game class, creates thread, panel, frame, duck, and level
+    //main creates game class, creates thread, panel, frame, duck, and levelManager
     //panel holds game, and mouse/keyhandlers 
+    public static Game game = null;
     Thread GameThread = new Thread(this);
     GamePanel panel = new GamePanel(this);
     GameFrame frame = new GameFrame(panel);
@@ -18,7 +19,16 @@ public class Game implements Runnable {
         frame.add(panel);
         frame.pack();
         frame.setVisible(true);
+        //to give ducky necessary level data, we got to levelManager which gets
+        //the level we are working wtih thich returns the levelData
         duck.getLevelData(levelManager.getCurrentLevel().getLevelData());
+    }
+    //singleton game panel
+    public static Game getGame() {
+        if (Game.game == null) {
+            Game.game = new Game();
+        }
+        return game;
     }
 
     public void startGameThread() {
@@ -35,10 +45,6 @@ public class Game implements Runnable {
 
     public GameFrame getFrame() {
         return frame;
-    }
-
-    public Game getGame() {
-        return this;
     }
 
     public void windowFocusLost() {

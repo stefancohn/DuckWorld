@@ -15,6 +15,7 @@ public class Constants {
     public static final int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public static final int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 
+    public static final int GRAVITY = 3;
     public static final int DUCKY_SPEED = 3; 
     public static final int DUCKY_IDLE = 0;
     public static final int DUCKY_RIGHT = 1;
@@ -22,5 +23,6 @@ public class Constants {
     public static final int DUCKY_ATTACK_RIGHT = 3; 
     public static final int DUCKY_ATTACK_LEFT = 4;
 
-    public static final int GRAVITY = 3;
+    public static final int SCENE_MENU = 0;
+    public static final int SCENE_PLAYING = 1;
 }
