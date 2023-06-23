@@ -27,14 +27,13 @@ public class LevelManager {
     }
 
     public void update() {
-
     }
     public void draw(Graphics g) {
        for (int i = 0; i < Constants.TILES_IN_HEIGHT; i++) 
             for (int j = 0; j < Constants.TILES_IN_WIDTH; j++) {
                 int index = levelOne.getSpriteIndex(i, j);
                 //these are drawn to size because the level builder sprites are 16*16, no size def needed
-                g.drawImage(levelSprite[index], j * Constants.TILES_SIZE_DEF, i * Constants.TILES_SIZE_DEF, null);
+                g.drawImage(levelSprite[index], j * Constants.TILES_SIZE_DEF, i * Constants.TILES_SIZE_DEF, 20, 20, null);
         }
         
     }

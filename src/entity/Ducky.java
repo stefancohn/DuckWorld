@@ -10,22 +10,22 @@ import java.awt.image.BufferedImage;
     public class Ducky extends Entity {
         BufferedImage duckSprite;
 
+        //duck dimensions
         public static int duckDimensionsIdle = 37; 
         public static int duckDimensionsSide = 21;
 
+        //animation variables
         BufferedImage[][] duckAni = new BufferedImage[5][4];
         int spriteLoop = 0;
         int spriteRow = 0;
         int spriteCol = 0;
         int aniTick, aniSpeed = 15;
-
-        KeyHandler kh = new KeyHandler();
-
         String direction = "";
-
         Boolean isAttacking = false;
 
-        //for making sure the jump input can be properly turned off/on
+        public KeyHandler kh = new KeyHandler();
+
+        //gravity variables
         Boolean jump = false;
         Boolean inAir = true;
         public int airSpeed = -6;
@@ -42,7 +42,7 @@ import java.awt.image.BufferedImage;
             initializeHitbox(x, y, width, height);
         }
 
-        public void getLevelData(int[][] levelData) {
+        public void initiateLevelData(int[][] levelData) {
             this.levelData = levelData;
         }
 
@@ -202,6 +202,10 @@ import java.awt.image.BufferedImage;
             jump = true;
         }
 
+        public void xOffsetForConstantMove(int xOffset) {
+            hitbox.x -= xOffset;
+        }
+
         public void update() {
             duckyMovementAndHitbox();
             setAni();
@@ -210,13 +214,13 @@ import java.awt.image.BufferedImage;
         public void draw(Graphics g) {
             if (direction == "right" || direction == "attackingRight") {
                 g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 10, hitbox.y, width, height, null);
-                //drawHitbox(g);
+                drawHitbox(g);
             } else if (direction == "left" || direction == "attackingLeft") {
                 g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 8, hitbox.y, width, height, null);
-                //drawHitbox(g);
+                drawHitbox(g);
             } else {
                 g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x, hitbox.y, width, height, null);
-                //drawHitbox(g);
+                drawHitbox(g);
             }
         }
 

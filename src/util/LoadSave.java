@@ -33,7 +33,7 @@ public class LoadSave {
                 Color color = new Color(img.getRGB(j, i));
                 int value = color.getRed();
                 if (value >= 5) {
-                    value = 0;
+                    value = 4;
                 }
                 levelData[i][j] = value;
             }
