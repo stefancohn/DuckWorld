@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import entity.Ducky;
 import levels.LevelManager;
 import util.Constants;
+import java.util.Random;
 
 public class PlayingScene extends Scene {
     Ducky duck;
@@ -12,6 +13,8 @@ public class PlayingScene extends Scene {
     int timerForConstantScreenMoveMethod = 0;
     static int moveScreenRightLength = 1;
     int obstacleCounter = 0;
+    Random patternChooser = new Random();
+    int pattern = patternChooser.nextInt(Constants.AMOUNT_OF_PATTERNS);
 
     public PlayingScene(Ducky duck) {
         this.duck = duck;
@@ -26,21 +29,19 @@ public class PlayingScene extends Scene {
             levelManager.getCurrentLevel().shiftLevelRight(moveScreenRightLength);
             //moves ducky with the xOffset(moveScreenRightLength) so he is updated correctly
             if (obstacleCounter < 50) {
-                levelManager.transformMainLevel(moveScreenRightLength, obstacleCounter);
+                levelManager.transformMainLevel(moveScreenRightLength, obstacleCounter, pattern);
                 obstacleCounter+= moveScreenRightLength;
             } else {
                 obstacleCounter = 0;
+                pattern = patternChooser.nextInt(Constants.AMOUNT_OF_PATTERNS);
             }
         }
-        //goals for tmrw: introduce random object
-        //to introduce new sequences, when sequence is over, reset obstacleCounter
     }
 
     @Override
     public void update() {
         duck.update();
         constantScreenMove();
-        System.out.println(obstacleCounter);
     }
     @Override
     public void draw(Graphics g) {

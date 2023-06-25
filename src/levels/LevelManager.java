@@ -8,10 +8,10 @@ import util.LoadSave;
 
 public class LevelManager {
     private BufferedImage[] levelSprite = new BufferedImage[6]; 
-    private BufferedImage[] obstacleSprites = new BufferedImage[2];
+    private BufferedImage[] obstacleSprites = new BufferedImage[Constants.AMOUNT_OF_PATTERNS];
 
     Level mainLevel;
-    Level[] obstacleSequences = new Level[2];
+    Level[] obstacleSequences = new Level[Constants.AMOUNT_OF_PATTERNS];
 
     public LevelManager(){
         importLevelSprite();
@@ -42,11 +42,11 @@ public class LevelManager {
 
     //method to transplant randomly selected sequence from obstacleSequences to mainLevel
     //iterates through mainLevel data and replaces it with obstacleSequences data
-    public void transformMainLevel(int xOffset, int obstacleCounter) {
+    public void transformMainLevel(int xOffset, int obstacleCounter, int pattern) {
         int width = mainLevel.getLevelData()[0].length - 1;
         for (int i = 0; i < mainLevel.getLevelData().length; i++) {
             for (int j = width, k =0; j > (mainLevel.getLevelData()[i].length - 1) - xOffset; j--, k++){
-                mainLevel.getLevelData()[i][j] = obstacleSequences[0].getLevelData()[i][k + obstacleCounter];
+                mainLevel.getLevelData()[i][j] = obstacleSequences[pattern].getLevelData()[i][k + obstacleCounter];
             }
         }
     }

@@ -26,4 +26,6 @@ public class Constants {
 
     public static final int SCENE_MENU = 0;
     public static final int SCENE_PLAYING = 1;
+
+    public static final int AMOUNT_OF_PATTERNS = 4;
 }

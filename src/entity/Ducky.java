@@ -19,7 +19,7 @@ import java.awt.image.BufferedImage;
         int spriteLoop = 0;
         int spriteRow = 0;
         int spriteCol = 0;
-        int aniTick, aniSpeed = 15;
+        int aniTick, aniSpeed = 20;
         String direction = "";
         Boolean isAttacking = false;
 
