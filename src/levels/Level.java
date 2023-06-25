@@ -1,9 +1,7 @@
 package levels;
 
-import java.util.Arrays;
-
 public class Level {
-    private int[][] levelData;
+    public int[][] levelData;
 
     public Level(int[][] levelData) {
         this.levelData = levelData;
@@ -17,15 +15,17 @@ public class Level {
         return levelData;
     }
 
+    //shifts the level right by taking an offset value, and making a value
+    //in the leveldata array take the index that offset value ahead of it
     public void shiftLevelRight(int xOffset) {
         for (int i = 0; i < levelData.length; i++) {
             for (int j = 0; j < levelData[i].length - xOffset; j++) {
                 levelData[i][j] = levelData[i][j + xOffset];
             }
-        }
-        /*for (int i = 0; i < levelData.length; i++) {
+        } /* 
+        for (int i = 0; i < levelData.length; i++) {
+            System.out.println(Arrays.toString(levelData));
             for (int j = 0; j < levelData[i].length - xOffset; j++) {
-                System.out.println(Arrays.toString(levelData[i]));
             }
         }
         */

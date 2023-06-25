@@ -2,7 +2,6 @@ package main;
 
 import java.awt.Graphics;
 import entity.Ducky;
-import handler.KeyHandler;
 import util.*;
 import statemanager.*;
 
@@ -12,7 +11,7 @@ public class Game implements Runnable {
     GamePanel panel = new GamePanel(this);
     GameFrame frame = new GameFrame(panel);
 
-    Ducky duck = new Ducky(panel.kh, 16, 16, 40, 40);
+    Ducky duck = new Ducky(panel.kh, 100, 200, 40, 40);
 
     Scene currentScene;
     int sceneNum = Constants.SCENE_MENU;
