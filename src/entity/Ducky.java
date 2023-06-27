@@ -19,7 +19,7 @@ import java.awt.image.BufferedImage;
         int spriteLoop = 0;
         int spriteRow = 0;
         int spriteCol = 0;
-        int aniTick, aniSpeed = 20;
+        int aniTick, aniSpeed = 15;
         String direction = "";
         Boolean isAttacking = false;
 
@@ -93,6 +93,7 @@ import java.awt.image.BufferedImage;
                 if (isAttacking && spriteLoop == 4) {
                     kh.spacePressed = false;
                     isAttacking = false;
+                    aniSpeed = 15;
                 }
                 if (spriteLoop >= spriteCol) {
                     spriteLoop = 0;
@@ -130,19 +131,49 @@ import java.awt.image.BufferedImage;
             //moving left
             if (kh.getLeftPres() && !kh.getRightPres()
             && !kh.getSpacePres()) {
+                direction = "left";
+                updateHitboxSide();
                 if (Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)){
                     hitbox.x -= Constants.DUCKY_SPEED;
                 } else {
                     hitbox.x = Collisions.getXPosNextToWallLeft(hitbox);
                 }
-                direction = "left";
+            }//attack left
+            else if (kh.getSpacePres() && kh.getLeftPres()
+            && !kh.getRightPres()) {
+                isAttacking = true;
+                direction = "attackingLeft";
+                aniSpeed = 8;
                 updateHitboxSide();
+                if (kh.getUpPres()) {
+                    jump();
+                }
+                if (Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)){
+                    hitbox.x -= Constants.DUCKY_SPEED;
+                } else {
+                    hitbox.x = Collisions.getXPosNextToWallLeft(hitbox);
+                }
             }
             //moving right
             if (kh.getRightPres() && !kh.getLeftPres()
             && !kh.getSpacePres()) {
                 direction = "right";
                 updateHitboxSide();
+                if (Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                    hitbox.x += Constants.DUCKY_SPEED;
+                } else {
+                    hitbox.x = Collisions.getXposNextToWallRightMoving(hitbox);
+                }
+            } //attack right
+            else if (kh.getSpacePres() && kh.getRightPres()
+            && !kh.getLeftPres()) {
+                isAttacking = true;
+                direction = "attackingRight";
+                aniSpeed = 8;
+                updateHitboxSide();
+                if (kh.getUpPres()) {
+                    jump();
+                }
                 if (Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                     hitbox.x += Constants.DUCKY_SPEED;
                 } else {
@@ -156,22 +187,10 @@ import java.awt.image.BufferedImage;
                     jump();
                 }
             }
-            //attack right
-            if (kh.getSpacePres() && kh.getRightPres()
-            && !kh.getLeftPres()) {
-                isAttacking = true;
-                direction = "attackingRight";
-                updateHitboxSide();
-            }
-            //attack left
-            if (kh.getSpacePres() && kh.getLeftPres()
-            && !kh.getRightPres()) {
-                isAttacking = true;
-                direction = "attackingLeft";
-            }
             if (!inAir) {
                 yPosBeforeJump = hitbox.y;
             }
+            //jump checks
             if (inAir && jump) {
                 if (Collisions.canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData)){
                     hitbox.y += airSpeed;
@@ -206,10 +225,17 @@ import java.awt.image.BufferedImage;
             hitbox.x -= xOffset;
         }
 
+        public void dead() {
+            if (Collisions.touchedLava(hitbox.x, hitbox.y, levelData)) {
+                System.out.println("OOF");
+            }
+        }
+
         public void update() {
             duckyMovementAndHitbox();
             setAni();
             updateAni();
+            dead();
         }
         public void draw(Graphics g) {
             if (direction == "right" || direction == "attackingRight") {

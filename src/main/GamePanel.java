@@ -8,7 +8,7 @@ import handler.MouseHandler;
 import util.Constants;
 
 public class GamePanel extends JPanel {
-    KeyHandler kh = new KeyHandler();
+    public KeyHandler kh = new KeyHandler();
     MouseHandler mh = new MouseHandler();
     Game game;
 
@@ -26,6 +26,12 @@ public class GamePanel extends JPanel {
 
     public Game getGame() {
         return game;
+    }
+    public MouseHandler getMouseHandler() {
+        return this.mh;
+    }
+    public KeyHandler getKeyHandler() {
+        return this.kh;
     }
 
     public void update() {

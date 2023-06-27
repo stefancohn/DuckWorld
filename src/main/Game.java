@@ -30,6 +30,9 @@ public class Game implements Runnable {
         }
         return game;
     }
+    public GamePanel getPanel() {
+        return this.panel;
+    }
 
     //start game
     public void startGameThread() {

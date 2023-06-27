@@ -23,6 +23,16 @@ public class Collisions {
         return false;
     }
 
+    public static Boolean touchedLava(int x, int y, int[][] levelData) {
+        int xIndex = x / Constants.TILES_SIZE;
+		int yIndex = y / Constants.TILES_SIZE;
+        int value = levelData[yIndex + 3][xIndex];
+        if (value == 5) {
+            return true;
+        }
+        return false; 
+    }
+
     public static Boolean isOnFloor(int x, int y, int width, int height, int[][] levelData) {
         if (!canMoveHere(x, y + Constants.GRAVITY, width, height, levelData)) {
             return true;
