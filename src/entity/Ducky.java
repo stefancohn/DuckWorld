@@ -139,10 +139,8 @@ import java.awt.image.BufferedImage;
                 updateHitboxSide(duckDimensionsSide);
                 if (Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)){
                     hitbox.x -= Constants.DUCKY_SPEED; //if ducky can move, we do move him
-                    System.out.println("BRUH");
                 } else {
                     hitbox.x = Collisions.getXPosNextToWallLeft(hitbox); //if not, we get his exact position next to a block
-                    System.out.println("LOL");
                 }
             }//attack left
             else if (kh.getSpacePres() && kh.getLeftPres()

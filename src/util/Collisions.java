@@ -72,17 +72,25 @@ public class Collisions {
     }
 
     public static Boolean canMoveHere(int x, int y, int width, int height, int[][] levelData){
+        Boolean isNotSolid = false;
+        //checks if the corners collide with anything
         if (isSolid(x, y, levelData) == false) {
             if (isSolid(x + width, y, levelData) == false) {
-                if (isSolid(x , y + height, levelData) == false) {
-                    if (isSolid(x + (width/2), y + (height/2), levelData) == false) {
-                        if (isSolid(x+width, y + height, levelData) == false) {
-                            return true;
-                        }
+                if (isSolid(x , y + height, levelData) == false) { 
+                    if (isSolid(x+width, y + height, levelData) == false) {
+                        isNotSolid = true;
                     }
                 }
             }
+        } 
+        //checks anything inbetween the corners
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (isSolid(x + i, y + j, levelData)) {
+                        isNotSolid = false;
+                }
+            }
         }
-        return false;
+        return isNotSolid;
     }
 }
