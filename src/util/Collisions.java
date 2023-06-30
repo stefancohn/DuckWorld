@@ -17,7 +17,7 @@ public class Collisions {
         int xIndex = x / Constants.TILES_SIZE;
 		int yIndex = y / Constants.TILES_SIZE;
         int value = levelData[yIndex][xIndex];
-        if (value != 4) {
+        if (value != 4 ) {
             return true;
         }
         return false;
@@ -26,6 +26,9 @@ public class Collisions {
     public static Boolean touchedLava(int x, int y, int[][] levelData) {
         int xIndex = x / Constants.TILES_SIZE;
 		int yIndex = y / Constants.TILES_SIZE;
+        if (xIndex < 0 ) {
+            return false;
+        }
         int value = levelData[yIndex + 3][xIndex];
         if (value == 5) {
             return true;
@@ -72,8 +75,10 @@ public class Collisions {
         if (isSolid(x, y, levelData) == false) {
             if (isSolid(x + width, y, levelData) == false) {
                 if (isSolid(x , y + height, levelData) == false) {
-                    if (isSolid(x+width, y + height, levelData) == false) {
-                        return true;
+                    if (isSolid(x + (width/2), y + (height/2), levelData) == false) {
+                        if (isSolid(x+width, y + height, levelData) == false) {
+                            return true;
+                        }
                     }
                 }
             }

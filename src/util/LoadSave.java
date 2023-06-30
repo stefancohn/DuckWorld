@@ -23,8 +23,8 @@ public class LoadSave {
             return img;
         }
     
-        //grabs the Red value of each tile of level map and rerturns it as 
-        //a 2d array
+    //grabs the Red value of each tile of level map and rerturns it as 
+    //a 2d array
     public static int[][] getLevelDataRed(String file) {
         BufferedImage img = getSpriteAtlas(file);
         int[][] levelData = new int[img.getHeight()] [img.getWidth()];
@@ -39,8 +39,8 @@ public class LoadSave {
                 levelData[i][j] = value;
             }
         }
-            return levelData;
-        }
+        return levelData;
+    }
     //same method as above but works with images instead of files
     public static int[][] getLevelDataRedImg(BufferedImage img) {
         int[][] levelData = new int[img.getHeight()] [img.getWidth()];
@@ -55,6 +55,24 @@ public class LoadSave {
                 levelData[i][j] = value;
             }
         }
+        return levelData;
+        }
+
+        //retrieves blue num of RGB for enemy spawn
+        public static int[][] getLevelDataBlue(String file) {
+            BufferedImage img = getSpriteAtlas(file);
+            int[][] levelData = new int[img.getHeight()] [img.getWidth()];
+    
+            for (int i = 0; i < img.getHeight(); i++) {
+                for (int j = 0; j < img.getWidth(); j++) {
+                    Color color = new Color(img.getRGB(j, i));
+                    int value = color.getBlue();
+                    if (value != 1) {
+                        value = 0;
+                    }
+                    levelData[i][j] = value;
+                }
+            }
             return levelData;
         }
     }

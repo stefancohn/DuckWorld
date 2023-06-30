@@ -22,13 +22,7 @@ public class Level {
             for (int j = 0; j < levelData[i].length - xOffset; j++) {
                 levelData[i][j] = levelData[i][j + xOffset];
             }
-        } /* 
-        for (int i = 0; i < levelData.length; i++) {
-            System.out.println(Arrays.toString(levelData));
-            for (int j = 0; j < levelData[i].length - xOffset; j++) {
-            }
-        }
-        */
+        } 
     }
 
     

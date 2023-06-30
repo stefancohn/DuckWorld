@@ -33,6 +33,9 @@ public class Game implements Runnable {
     public GamePanel getPanel() {
         return this.panel;
     }
+    public Ducky getDucky() {
+        return duck;
+    }
 
     //start game
     public void startGameThread() {

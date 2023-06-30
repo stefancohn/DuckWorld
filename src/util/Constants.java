@@ -18,6 +18,7 @@ public class Constants {
 
     public static final int GRAVITY = 3;
     public static final int DUCKY_SPEED = 2; 
+    public static final int ENEMY_SPEED = 1;
     public static final int DUCKY_IDLE = 0;
     public static final int DUCKY_RIGHT = 1;
     public static final int DUCKY_LEFT = 2;
@@ -28,4 +29,5 @@ public class Constants {
     public static final int SCENE_PLAYING = 1;
 
     public static final int AMOUNT_OF_PATTERNS = 4;
+    public static final int MOVE_SCREEN_RIGHT_LENGTH = 1;
 }

@@ -25,21 +25,22 @@ import java.awt.image.BufferedImage;
 
         public KeyHandler kh = new KeyHandler();
 
-        //gravity variables
+        //gravity and friction variables
         Boolean jump = false;
         Boolean inAir = true;
         public int airSpeed = -6;
         public int jumpHeight = -100;
+        double friction = 0.1;
         int yPosBeforeJump;
         
         int[][] levelData;
 
         public Ducky(KeyHandler kh, int x, int y, int width, int height) {
             super(x, y, width, height);
-            duckSprite = LoadSave.getSpriteAtlas(LoadSave.DUCKY_ATLAS);
-            loadAni();
             this.kh = kh;
             initializeHitbox(x, y, width, height);
+            duckSprite = LoadSave.getSpriteAtlas(LoadSave.DUCKY_ATLAS);
+            loadAni();
         }
 
         public void initiateLevelData(int[][] levelData) {
@@ -54,9 +55,10 @@ import java.awt.image.BufferedImage;
             }
         }
 
+        //set the animation to be shown
         private void setAni() {
             int startAni = spriteRow;
-            switch (direction) {
+            switch (direction) { //changes sprite col to the total amount of animations for direction and selects the row in which they are in the sprite sheet
                 case "right":
                     spriteCol = 2;
                     spriteRow = Constants.DUCKY_RIGHT;
@@ -76,9 +78,10 @@ import java.awt.image.BufferedImage;
                 default: 
                     spriteCol = 0;
                     spriteRow = Constants.DUCKY_IDLE;
-                    hitbox.width = Ducky.duckDimensionsIdle;
+                    updateHitboxSide(duckDimensionsIdle);
                     break;
             }
+            //restarts the animation from the start when animations switch
             if (spriteRow != startAni) {
                 aniTick = 0;
                 spriteLoop = 0;
@@ -86,15 +89,16 @@ import java.awt.image.BufferedImage;
         }
 
         public void updateAni() {
-            aniTick++;
-            if (aniTick >= aniSpeed) {
+            aniTick++;  //update ani tick
+            if (aniTick >= aniSpeed) {  //once anitick is greater than desired speed reset it and go to next sprite in the animation
                 aniTick = 0;
                 spriteLoop++;
-                if (isAttacking && spriteLoop == 4) {
+                if (isAttacking && spriteLoop == 4) { //this is so that when space is pressed, the attack animation runs through in full, it is stopeed, and anispeed is back to defaul
                     kh.spacePressed = false;
                     isAttacking = false;
                     aniSpeed = 15;
                 }
+                //restart animation from start when they switch
                 if (spriteLoop >= spriteCol) {
                     spriteLoop = 0;
                 }
@@ -132,19 +136,22 @@ import java.awt.image.BufferedImage;
             if (kh.getLeftPres() && !kh.getRightPres()
             && !kh.getSpacePres()) {
                 direction = "left";
-                updateHitboxSide();
+                updateHitboxSide(duckDimensionsSide);
                 if (Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)){
-                    hitbox.x -= Constants.DUCKY_SPEED;
+                    hitbox.x -= Constants.DUCKY_SPEED; //if ducky can move, we do move him
+                    System.out.println("BRUH");
                 } else {
-                    hitbox.x = Collisions.getXPosNextToWallLeft(hitbox);
+                    hitbox.x = Collisions.getXPosNextToWallLeft(hitbox); //if not, we get his exact position next to a block
+                    System.out.println("LOL");
                 }
             }//attack left
             else if (kh.getSpacePres() && kh.getLeftPres()
             && !kh.getRightPres()) {
                 isAttacking = true;
                 direction = "attackingLeft";
-                aniSpeed = 8;
-                updateHitboxSide();
+                aniSpeed = 8; //change ani speed to make animation faster
+                updateHitboxSide(duckDimensionsSide);
+                //these commands make sure we can move, jump, and shoot all at the same time
                 if (kh.getUpPres()) {
                     jump();
                 }
@@ -158,7 +165,7 @@ import java.awt.image.BufferedImage;
             if (kh.getRightPres() && !kh.getLeftPres()
             && !kh.getSpacePres()) {
                 direction = "right";
-                updateHitboxSide();
+                updateHitboxSide(duckDimensionsSide);
                 if (Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                     hitbox.x += Constants.DUCKY_SPEED;
                 } else {
@@ -170,7 +177,7 @@ import java.awt.image.BufferedImage;
                 isAttacking = true;
                 direction = "attackingRight";
                 aniSpeed = 8;
-                updateHitboxSide();
+                updateHitboxSide(duckDimensionsSide);
                 if (kh.getUpPres()) {
                     jump();
                 }
@@ -180,6 +187,8 @@ import java.awt.image.BufferedImage;
                     hitbox.x = Collisions.getXposNextToWallRightMoving(hitbox);
                 }
             }
+
+
             //jump
             if (kh.getUpPres() && !kh.getDownPres() && !inAir 
             && !kh.getSpacePres()){
@@ -200,6 +209,7 @@ import java.awt.image.BufferedImage;
                     }
                 }
                 else {
+                    hitbox.y = Collisions.getYPosCeilingAbove(hitbox);
                     jump = false;
                     kh.upPressed = false;
                 }
@@ -240,13 +250,13 @@ import java.awt.image.BufferedImage;
         public void draw(Graphics g) {
             if (direction == "right" || direction == "attackingRight") {
                 g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 10, hitbox.y, width, height, null);
-                //drawHitbox(g);
+                drawHitbox(g);
             } else if (direction == "left" || direction == "attackingLeft") {
                 g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 8, hitbox.y, width, height, null);
-                //drawHitbox(g);
+                drawHitbox(g);
             } else {
                 g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x, hitbox.y, width, height, null);
-                //drawHitbox(g);
+                drawHitbox(g);
             }
         }
 

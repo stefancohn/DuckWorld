@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import entity.Ducky;
+import entity.EnemyManager;
 import levels.LevelManager;
 import main.Game;
 import ui.PauseOverlay;
@@ -11,11 +12,12 @@ import java.util.Random;
 
 public class PlayingScene extends Scene {
     Ducky duck;
+
     LevelManager levelManager = new LevelManager();
+    EnemyManager enemyManager = new EnemyManager(levelManager);
 
     //variables used for random generation of obstacles and screen move
     int timerForConstantScreenMoveMethod = 0;
-    static int moveScreenRightLength = 1;
     int obstacleCounter = 0;
     Random patternChooser = new Random();
     int pattern = patternChooser.nextInt(Constants.AMOUNT_OF_PATTERNS);
@@ -34,18 +36,20 @@ public class PlayingScene extends Scene {
     public void constantScreenMove() { 
         timerForConstantScreenMoveMethod++;
         if (timerForConstantScreenMoveMethod % 40 == 0) {
-            duck.xOffsetForConstantMove(moveScreenRightLength * Constants.TILES_SIZE);
-            levelManager.getCurrentLevel().shiftLevelRight(moveScreenRightLength);
+            duck.xOffsetForConstantMove(Constants.MOVE_SCREEN_RIGHT_LENGTH * Constants.TILES_SIZE);
+            enemyManager.callXOffsetGoose();
+            levelManager.getCurrentLevel().shiftLevelRight(Constants.MOVE_SCREEN_RIGHT_LENGTH);
             //moves ducky with the xOffset(moveScreenRightLength) so he is updated correctly
-            if (obstacleCounter < 50) {
-                levelManager.transformMainLevel(moveScreenRightLength, obstacleCounter, pattern);
-                obstacleCounter+= moveScreenRightLength;
-            } else {
+            if (obstacleCounter < 50) { 
+                levelManager.transformMainLevel(Constants.MOVE_SCREEN_RIGHT_LENGTH, obstacleCounter, pattern);
+                enemyManager.spawnGooseRandom();
+                obstacleCounter+= Constants.MOVE_SCREEN_RIGHT_LENGTH;
+            } else { //restart screen moving and chose new level pattern when level sequence length reached
                 obstacleCounter = 0;
                 pattern = patternChooser.nextInt(Constants.AMOUNT_OF_PATTERNS);
             }
         }
-    }
+    } 
 
     public void unpauseTimer() {
         unpauseCounter++;
@@ -66,7 +70,8 @@ public class PlayingScene extends Scene {
         }
         else if (!duck.kh.getPause()) {
             duck.update();
-            constantScreenMove();
+            enemyManager.update();
+            //constantScreenMove();
         } else if (duck.kh.getPause()) {
             pauseScreen.update();
         }
@@ -75,6 +80,7 @@ public class PlayingScene extends Scene {
     public void draw(Graphics g) {
         levelManager.draw(g);
         duck.draw(g);
+        enemyManager.draw(g);
         if (duck.kh.getPause()) {
             pauseScreen.draw(g);
         }
