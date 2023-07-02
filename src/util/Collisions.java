@@ -51,16 +51,14 @@ public class Collisions {
     public static int getXposNextToWallRightMoving(Rectangle hitbox) {
         int currentTile = ((hitbox.x + hitbox.width)/Constants.TILES_SIZE); //get furthest block ducky's touching
         currentTile = ((currentTile + 1) * 16); //transform it to pixel size
-        int xOffset = currentTile - Ducky.duckDimensionsIdle; //subtract ducky's width to get one pixel in block ducky's touching 
+        int xOffset = currentTile - Ducky.duckDimensionsSide; //subtract ducky's width to get one pixel in block ducky's touching 
+        System.out.println(xOffset);
         return xOffset - 1; //subtract by one so he's not in it
     }
     public static int getXposNextToWallRightIdleInAir(Rectangle hitbox) {
         int currentTile = (((hitbox.x - 16) + hitbox.width)/Constants.TILES_SIZE);
-        System.out.println("CURERNT TIEL 1 : " + currentTile);
         currentTile = ((currentTile + 1) * 16);
-        System.out.println("Current TILE 2: " + currentTile);
         int xOffset = currentTile - Ducky.duckDimensionsIdle;
-        System.out.println("xOFFSET: " + xOffset);
         return xOffset - 1;
     }
     public static int getXposNextToWallRightIdle(Rectangle hitbox) {

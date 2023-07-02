@@ -1,6 +1,5 @@
 package entity;
 import handler.KeyHandler;
-import main.Game;
 import util.Collisions;
 import util.Constants;
 import util.LoadSave;
