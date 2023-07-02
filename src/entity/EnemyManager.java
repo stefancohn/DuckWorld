@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import levels.LevelManager;
+import main.Game;
+import util.Collisions;
 import util.Constants;
 import util.LoadSave;
 
@@ -13,7 +15,7 @@ public class EnemyManager {
 
     int[][] spawnPoints; //spawn points for the spawnGooseDefault method
 
-    int width = 36; //widht and height for geese
+    int width = 36; //width and height for geese
     int height = 36;
 
     Random spawnGooseChance = new Random();
@@ -41,15 +43,15 @@ public class EnemyManager {
 
     public void spawnGooseRandom() {
         int[][] levelData = levelManager.getCurrentLevel().getLevelData();
-        for (int i = 2; i <levelData.length; i++) {
-            int col49 = levelData[i][49];
+        for (int i = 3; i <levelData.length; i++) {
+            int col49 = levelData[i][49]; //get three blocks on different columns
             int col48 = levelData[i][48];
             int col47 = levelData[i][47];
             if ((col49 == 0 || col49 == 3) && (col48 == 0 || col48 == 3) && (col47 == 0 || col47 == 3) &&  //makes sure the blocks under are ground
-            levelData[i-1][47] == 4 && levelData[i-2][47] == 4) { //ensures the two blocks above the spawn point are blank
+            levelData[i-1][47] == 4 && levelData[i-2][47] == 4 && levelData[i-3][47] == 4 ) { //ensures the three blocks above the spawn point are blank
                 int randomVal = spawnGooseChance.nextInt(101);
                 if (randomVal <= 5) { //5% chance an enemy spawns if spawn conditions are met 
-                    enemies.add(new Goose(47 * Constants.TILES_SIZE, i * Constants.TILES_SIZE - 32 - height, width, height, levelData));
+                    enemies.add(new Goose(47 * Constants.TILES_SIZE, i * Constants.TILES_SIZE - 10 - height, width, height, levelData));
                 }
             }
         }
@@ -61,7 +63,19 @@ public class EnemyManager {
         }
     }
 
+    public void removeGoose() {
+        for (int i = 0; i < enemies.size(); i++) {
+            if (enemies.get(i).gooseDead()) {
+                enemies.remove(i);
+            }
+            if (enemies.size() > 0 && Collisions.entityCollide(Game.game.getDucky().hitbox, enemies.get(i).hitbox)) {
+                enemies.remove(i);
+            }
+        }
+    }
+
     public void update() {
+        removeGoose();
         for (Goose goose : enemies) {
             goose.update();
         }

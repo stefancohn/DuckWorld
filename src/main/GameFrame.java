@@ -21,7 +21,7 @@ public class GameFrame extends JFrame {
             }
 
             @Override
-            public void windowLostFocus(WindowEvent e) {
+            public void windowLostFocus(WindowEvent e) { //fixes bug where inputs remain despite losing focus
                panel.getGame().windowFocusLost();
             }
             

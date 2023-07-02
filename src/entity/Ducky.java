@@ -1,5 +1,6 @@
 package entity;
 import handler.KeyHandler;
+import main.Game;
 import util.Collisions;
 import util.Constants;
 import util.LoadSave;
@@ -15,19 +16,21 @@ import java.awt.image.BufferedImage;
         public static int duckDimensionsSide = 21;
 
         //animation variables
-        BufferedImage[][] duckAni = new BufferedImage[5][4];
+        BufferedImage[][] duckAni = new BufferedImage[6][4];
         int spriteLoop = 0;
         int spriteRow = 0;
         int spriteCol = 0;
         int aniTick, aniSpeed = 15;
         String direction = "";
-        Boolean isAttacking = false;
+        Boolean isAttacking = false; //for tracking attack animation properly 
+        Boolean isDead = false; //for tracking death animation properly
 
         public KeyHandler kh = new KeyHandler();
 
         //gravity and friction variables
         Boolean jump = false;
         Boolean inAir = true;
+        Boolean airWallCollision = false;
         public int airSpeed = -6;
         public int jumpHeight = -100;
         double friction = 0.1;
@@ -75,11 +78,17 @@ import java.awt.image.BufferedImage;
                     spriteCol = 4;
                     spriteRow = Constants.DUCKY_ATTACK_LEFT;
                     break;
+                case "death": 
+                    spriteCol = 4;
+                    spriteRow = Constants.DUCKY_DEATH;
+                    updateHitboxSide(duckDimensionsIdle);
                 default: 
+                if (!isDead) { //so it doesn't activate when dead
                     spriteCol = 0;
                     spriteRow = Constants.DUCKY_IDLE;
                     updateHitboxSide(duckDimensionsIdle);
                     break;
+                }
             }
             //restarts the animation from the start when animations switch
             if (spriteRow != startAni) {
@@ -98,8 +107,10 @@ import java.awt.image.BufferedImage;
                     isAttacking = false;
                     aniSpeed = 15;
                 }
-                //restart animation from start when they switch
-                if (spriteLoop >= spriteCol) {
+                if (isDead && spriteLoop >= 3) {
+                    spriteLoop = 3;
+                }
+                else if (spriteLoop >= spriteCol) { //restart animation when reaches end of animation columns from sprite sheet
                     spriteLoop = 0;
                 }
             }
@@ -113,10 +124,16 @@ import java.awt.image.BufferedImage;
             }
             //idle
             if (!kh.getRightPres() && !kh.getLeftPres()
-             && !kh.getSpacePres() && !kh.getDownPres() && !kh.getUpPres()) {
+             && !kh.getSpacePres() && !kh.getDownPres() && !kh.getUpPres() && !isDead) {
                 //move pos back when going to idle pos
                 direction = "";
-                if (!Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                if (inAir && !jump && !Collisions.canMoveHere(hitbox.x + 1, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                    if (!airWallCollision) {
+                        hitbox.x = Collisions.getXposNextToWallRightIdleInAir(hitbox); //could be improved
+                        airWallCollision = true;
+                    }
+                }
+                else if (!Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                     hitbox.x = Collisions.getXposNextToWallRightIdle(hitbox);
                 } else if (!Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                     hitbox.x = Collisions.getXPosNextToWallLeft(hitbox);
@@ -186,7 +203,6 @@ import java.awt.image.BufferedImage;
                 }
             }
 
-
             //jump
             if (kh.getUpPres() && !kh.getDownPres() && !inAir 
             && !kh.getSpacePres()){
@@ -199,14 +215,14 @@ import java.awt.image.BufferedImage;
             }
             //jump checks
             if (inAir && jump) {
-                if (Collisions.canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData)){
-                    hitbox.y += airSpeed;
-                    if (hitbox.y < yPosBeforeJump + jumpHeight) {
+                if (Collisions.canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData)){ 
+                    hitbox.y += airSpeed; //if can move up add speed
+                    if (hitbox.y < yPosBeforeJump + jumpHeight) { //once reaches jump height, no longer jump
                         jump = false; 
                         kh.upPressed = false;
                     }
                 }
-                else {
+                else { //if is in air and jump but can't move up: 
                     hitbox.y = Collisions.getYPosCeilingAbove(hitbox);
                     jump = false;
                     kh.upPressed = false;
@@ -220,6 +236,7 @@ import java.awt.image.BufferedImage;
                 inAir = false;
                 jump = false;
                 hitbox.y = Collisions.getYposFloorBelow(hitbox);
+                airWallCollision = false;
                 yPosBeforeJump = hitbox.y;
             }
         }
@@ -233,17 +250,22 @@ import java.awt.image.BufferedImage;
             hitbox.x -= xOffset;
         }
 
-        public void dead() {
+        public void duckyDead() {
             if (Collisions.touchedLava(hitbox.x, hitbox.y, levelData)) {
-                System.out.println("OOF");
+                isDead =true; 
+            }
+            if (isDead) {
+                direction = "death";
+                //perform death animation 
+               // System.out.println("DEAD");
             }
         }
 
         public void update() {
             duckyMovementAndHitbox();
+            duckyDead();
             setAni();
             updateAni();
-            dead();
         }
         public void draw(Graphics g) {
             if (direction == "right" || direction == "attackingRight") {

@@ -97,6 +97,13 @@ public class Goose extends Entity {
         hitbox.x -= xOffset;
     }
 
+    public Boolean gooseDead() {
+        if (hitbox.x <= 0) {
+            return true;
+        }
+        return false;
+    }
+
     public void update() {
         movement();
         setAni();

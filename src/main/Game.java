@@ -14,7 +14,7 @@ public class Game implements Runnable {
     Ducky duck = new Ducky(panel.kh, 100, 200, 40, 40);
 
     Scene currentScene;
-    int sceneNum = Constants.SCENE_MENU;
+    int sceneNum = Constants.SCENE_MENU; //controls which scene we are on
 
 
     public Game() {
@@ -34,7 +34,7 @@ public class Game implements Runnable {
         return this.panel;
     }
     public Ducky getDucky() {
-        return duck;
+        return this.duck;
     }
 
     //start game
@@ -64,7 +64,7 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
-        double drawInterval = 1000000000/Constants.FPS;
+        double drawInterval = 1000000000/Constants.FPS; //get updateIntervals by dividing 1 second by desire updateInterval
         double updateInterval = 1000000000/Constants.UPS;
         double deltaT = 0; 
         double deltaU = 0;

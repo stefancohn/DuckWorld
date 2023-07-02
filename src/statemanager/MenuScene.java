@@ -30,12 +30,12 @@ public class MenuScene extends Scene{
         if (mh.x > (Constants.GAME_WIDTH/2) - 200 && 
         mh.x < (((Constants.GAME_WIDTH/2) - 200) + 400) && mh.y > 200
         && mh.y < 300) {
-            buttonSprite = 1;
+            buttonSprite = 1; //change button to "selected" if it is in bounds
             if (mh.clicked) {
-                Game.game.changeState(Constants.SCENE_PLAYING);
+                Game.game.changeState(Constants.SCENE_PLAYING); //change scene if play button clicked
             }
         } else {
-            buttonSprite = 0;
+            buttonSprite = 0; //otherwise, it will stay the default button 
         }
     }
 

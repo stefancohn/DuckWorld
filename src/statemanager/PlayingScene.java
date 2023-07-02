@@ -22,7 +22,7 @@ public class PlayingScene extends Scene {
     Random patternChooser = new Random();
     int pattern = patternChooser.nextInt(Constants.AMOUNT_OF_PATTERNS);
     
-    PauseOverlay pauseScreen = new PauseOverlay(Game.getGame().getPanel().getMouseHandler());
+    PauseOverlay pauseScreen = new PauseOverlay(Game.game.getPanel().getMouseHandler());
     public static Boolean unpaused = false;
     int unpauseCounter = 0;
     int displayedCountdown = 3;
@@ -71,7 +71,7 @@ public class PlayingScene extends Scene {
         else if (!duck.kh.getPause()) {
             duck.update();
             enemyManager.update();
-            constantScreenMove();
+            //constantScreenMove();
         } else if (duck.kh.getPause()) {
             pauseScreen.update();
         }
