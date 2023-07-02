@@ -43,12 +43,13 @@ public class EnemyManager {
 
     public void spawnGooseRandom() {
         int[][] levelData = levelManager.getCurrentLevel().getLevelData();
-        for (int i = 3; i <levelData.length; i++) {
+        for (int i = 1; i <levelData.length; i++) {
             int col49 = levelData[i][49]; //get three blocks on different columns
             int col48 = levelData[i][48];
             int col47 = levelData[i][47];
             if ((col49 == 0 || col49 == 3) && (col48 == 0 || col48 == 3) && (col47 == 0 || col47 == 3) &&  //makes sure the blocks under are ground
-            levelData[i-1][47] == 4 && levelData[i-2][47] == 4 && levelData[i-3][47] == 4 ) { //ensures the three blocks above the spawn point are blank
+            levelData[i-1][47] == 4 && levelData[i-1][48] == 4 && levelData[i-1][49] == 4 &&
+            levelData[i-2][47] == 4 && levelData[i-2][48] == 4 && levelData[i-2][49] == 4) { //ensures the three blocks above the spawn point are blank
                 int randomVal = spawnGooseChance.nextInt(101);
                 if (randomVal <= 5) { //5% chance an enemy spawns if spawn conditions are met 
                     enemies.add(new Goose(47 * Constants.TILES_SIZE, i * Constants.TILES_SIZE - 10 - height, width, height, levelData));
@@ -68,14 +69,21 @@ public class EnemyManager {
             if (enemies.get(i).gooseDead()) {
                 enemies.remove(i);
             }
+        }
+    }
+
+    public void duckyAndGooseCollision() {
+        for (int i = 0; i < enemies.size(); i++) {
+            //check for collision
             if (enemies.size() > 0 && Collisions.entityCollide(Game.game.getDucky().hitbox, enemies.get(i).hitbox)) {
-                enemies.remove(i);
+                Game.game.getDucky().setIsDead(true); // set isDead flag to true, thus killing ducky
             }
         }
     }
 
     public void update() {
         removeGoose();
+        //duckyAndGooseCollision();
         for (Goose goose : enemies) {
             goose.update();
         }

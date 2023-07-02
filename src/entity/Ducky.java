@@ -126,7 +126,7 @@ import java.awt.image.BufferedImage;
              && !kh.getSpacePres() && !kh.getDownPres() && !kh.getUpPres() && !isDead) {
                 //move pos back when going to idle pos
                 direction = "";
-                if (inAir && !jump && !Collisions.canMoveHere(hitbox.x + 1, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                if (inAir && !jump && !Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                     if (!airWallCollision) {
                         hitbox.x = Collisions.getXposNextToWallRightIdleInAir(hitbox); //could be improved
                         airWallCollision = true;
@@ -258,6 +258,10 @@ import java.awt.image.BufferedImage;
                 //perform death animation 
                // System.out.println("DEAD");
             }
+        }
+
+        public void setIsDead(Boolean flag) {
+            this.isDead = flag;
         }
 
         public void update() {
