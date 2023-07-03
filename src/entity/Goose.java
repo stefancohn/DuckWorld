@@ -110,6 +110,6 @@ public class Goose extends Entity {
     }
     public void draw(Graphics g) {
         g.drawImage(gooseImages[spriteRow][0], hitbox.x, hitbox.y, width, height, null);
-        drawHitbox(g);
+        //drawHitbox(g);
     }
 }

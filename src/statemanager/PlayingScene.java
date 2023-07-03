@@ -71,7 +71,7 @@ public class PlayingScene extends Scene {
         else if (!duck.kh.getPause()) {
             duck.update();
             enemyManager.update();
-            //constantScreenMove();
+            constantScreenMove();
         } else if (duck.kh.getPause()) {
             pauseScreen.update();
         }

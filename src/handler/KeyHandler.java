@@ -30,11 +30,9 @@ public class KeyHandler implements KeyListener {
         }
         if (i == KeyEvent.VK_D) {
             rightPressed = true;
-            direction = "right";
         }
         if (i == KeyEvent.VK_A) {
             leftPressed = true;
-            direction = "left";
         }
         if (i == KeyEvent.VK_SPACE) {
             spacePressed = true;
