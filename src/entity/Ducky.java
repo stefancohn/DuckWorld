@@ -97,7 +97,7 @@ import java.awt.image.BufferedImage;
             }
         }
 
-        public void updateAni() {
+        private void updateAni() {
             aniTick++;  //update ani tick
             if (aniTick >= aniSpeed) {  //once anitick is greater than desired speed reset it and go to next sprite in the animation
                 aniTick = 0;
@@ -246,7 +246,7 @@ import java.awt.image.BufferedImage;
             }
         }
 
-        public void jump() {
+        private void jump() {
             inAir = true;
             jump = true;
         }

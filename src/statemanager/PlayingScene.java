@@ -22,10 +22,14 @@ public class PlayingScene extends Scene {
     Random patternChooser = new Random();
     int pattern = patternChooser.nextInt(Constants.AMOUNT_OF_PATTERNS);
     
+    //variables for pause overlay 
     PauseOverlay pauseScreen = new PauseOverlay(Game.game.getPanel().getMouseHandler());
     public static Boolean unpaused = false;
     int unpauseCounter = 0;
     int displayedCountdown = 3;
+
+    public static int gameScore = 0; //tracks enemies killed, sequences cleared
+    public static int difficulty = 0; //causes the game to move faster and more enemies to spawn
 
     public PlayingScene(Ducky duck) {
         this.duck = duck;
@@ -35,7 +39,7 @@ public class PlayingScene extends Scene {
     //implements the shiftLevelRight thingy to shift the level every 40 updates
     public void constantScreenMove() { 
         timerForConstantScreenMoveMethod++;
-        if (timerForConstantScreenMoveMethod % 40 == 0) {
+        if (timerForConstantScreenMoveMethod % (40 - difficulty) == 0) {
             duck.xOffsetForConstantMove(Constants.MOVE_SCREEN_RIGHT_LENGTH * Constants.TILES_SIZE);
             enemyManager.callXOffsetGoose();
             levelManager.getCurrentLevel().shiftLevelRight(Constants.MOVE_SCREEN_RIGHT_LENGTH);
@@ -81,6 +85,9 @@ public class PlayingScene extends Scene {
         levelManager.draw(g);
         duck.draw(g);
         enemyManager.draw(g);
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, 40));
+        g.setColor(Color.GREEN);
+        g.drawString("" + PlayingScene.gameScore, 700, 50);
         if (duck.kh.getPause()) {
             pauseScreen.draw(g);
         }

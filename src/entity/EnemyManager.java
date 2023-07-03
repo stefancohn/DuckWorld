@@ -6,6 +6,7 @@ import java.util.Random;
 
 import levels.LevelManager;
 import main.Game;
+import statemanager.PlayingScene;
 import util.Collisions;
 import util.Constants;
 import util.LoadSave;
@@ -55,7 +56,7 @@ public class EnemyManager {
             levelData[i-1][47] == 4 && levelData[i-1][48] == 4 && levelData[i-1][49] == 4 &&
             levelData[i-2][47] == 4 && levelData[i-2][48] == 4 && levelData[i-2][49] == 4) { //ensures the three blocks above the spawn point are blank up two rows
                 int randomVal = spawnGooseChance.nextInt(101);
-                if (randomVal <= 5) { //5% chance an enemy spawns if spawn conditions are met 
+                if (randomVal <= 20) { //5% chance an enemy spawns if spawn conditions are met 
                     enemies.add(new Goose(47 * Constants.TILES_SIZE, i * Constants.TILES_SIZE - 10 - height, width, height, levelData));
                 }
             }
@@ -84,11 +85,24 @@ public class EnemyManager {
             }
         }
     }
+    public void gooseAndProjectileCollision() { 
+        for (int i = 0; i < enemies.size(); i++) {
+            for (int j = 0; j < projectiles.size(); j++) {
+                if (Collisions.entityCollide(enemies.get(i).hitbox, projectiles.get(j).hitbox)) {
+                    projectiles.get(j).collided = true;
+                    enemies.get(i).isDead = true;
+                    PlayingScene.gameScore++;
+                }
+            }
+        }
+    }
 
     public void createProjectiles() {
         //makes sure only one projectile created at end of animation instead of many when attacking
         if (duck.isAttacking && duck.spriteLoop == 3 && duck.aniTick == 7 && !duck.isAttackingLeft) { 
-            projectiles.add(new DuckyProjectile(duck.hitbox.x + duck.hitbox.width + 4, duck.hitbox.y + 6, 10, 10, levelData));
+            projectiles.add(new DuckyProjectile(duck.hitbox.x + duck.hitbox.width + 4, duck.hitbox.y + 6, 10, 10, true, levelData));
+        } else if (duck.isAttacking && duck.spriteLoop == 3 && duck.aniTick == 7 && duck.isAttackingLeft) {
+            projectiles.add(new DuckyProjectile(duck.hitbox.x, duck.hitbox.y + 6, 10, 10, false, levelData));
         }
     }
     public void removeProjectiles() { //removes projectiles if collided flag is raised
@@ -99,16 +113,15 @@ public class EnemyManager {
         }
     }
 
+
+
     public void update() {
-        removeGoose();
-        duckyAndGooseCollision();
         createProjectiles();
-        for (Goose goose : enemies) {
-            goose.update();
-        }
-        for (int i = 0; i < projectiles.size(); i++) {
-            projectiles.get(i).update();
-        }
+        duckyAndGooseCollision();
+        gooseAndProjectileCollision();
+        for (Goose goose : enemies) { goose.update(); }
+        for (int i = 0; i < projectiles.size(); i++) { projectiles.get(i).update(); }
+        removeGoose();
         removeProjectiles();
     }
     public void draw(Graphics g) {

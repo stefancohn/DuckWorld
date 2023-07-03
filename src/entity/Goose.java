@@ -12,7 +12,7 @@ public class Goose extends Entity {
 
     int[][] levelData;
 
-    int gooseSpeed = -Constants.ENEMY_SPEED;
+    int gooseSpeed = -Constants.ENEMY_SPEED; //starts negative b/c want to start moving left
 
     //animation variables 
     String direction = "";
@@ -22,6 +22,8 @@ public class Goose extends Entity {
     private boolean movingLeft = true;  
     private int patrolDistance = 200;    
     private int traveledDistance = 0;
+
+    Boolean isDead = false;
 
     public Goose(int x, int y, int width, int height, int[][] levelData) {
         super(x, y , width, height);
@@ -43,7 +45,7 @@ public class Goose extends Entity {
         this.levelData = levelData;
     }
 
-    public void setAni() {
+    public void setAni() { //sets correct row for sprite sheet
         switch (direction) {
             case "right":
                 spriteRow = 1;
@@ -56,12 +58,12 @@ public class Goose extends Entity {
 
     public void movement() {
         //patrol logic
-        if (traveledDistance >= patrolDistance) {   //once reaches desired patrol distance, restart variables
+        if (traveledDistance >= patrolDistance) {  //once reaches desired patrol distance, restart variables
             movingLeft = !movingLeft; 
             traveledDistance = 0;        
         }
     
-        if (movingLeft) { // move left/right depending on movingLeft variables
+        if (movingLeft) { // move left/right depending on movingLeft boolean
             hitbox.x += gooseSpeed;
             direction = "left";
         } else {
@@ -70,7 +72,7 @@ public class Goose extends Entity {
         }
     
         if (Collisions.canMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height, levelData) 
-        && (Collisions.isOnFloor(hitbox.x - 36, hitbox.y, hitbox.width, hitbox.height, levelData))) { //if can move, ad to traveled distacne
+        && (Collisions.isOnFloor(hitbox.x, hitbox.y, hitbox.width, hitbox.height, levelData))) { //if can move, ad to traveled distacne
             traveledDistance += Math.abs(gooseSpeed);
         } else {
             movingLeft = !movingLeft; //if there is a collision, flip the direction, reset travelled distance
@@ -97,11 +99,15 @@ public class Goose extends Entity {
         hitbox.x -= xOffset;
     }
 
+    public void setDead(Boolean flag) {
+        this.isDead = flag;
+    }
+
     public Boolean gooseDead() {
         if (hitbox.x <= 0) {
-            return true;
+            isDead = true;
         }
-        return false;
+        return isDead;
     }
 
     public void update() {
