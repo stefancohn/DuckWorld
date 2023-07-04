@@ -28,8 +28,7 @@ public class PlayingScene extends Scene {
     int unpauseCounter = 0;
     int displayedCountdown = 3;
 
-    public static int gameScore = 0; //tracks enemies killed, sequences cleared
-    public static int difficulty = 0; //causes the game to move faster and more enemies to spawn
+    public static double gameScore = 0; //tracks enemies killed, sequences cleared, and is responsible for difficulty
 
     public PlayingScene(Ducky duck) {
         this.duck = duck;
@@ -39,7 +38,7 @@ public class PlayingScene extends Scene {
     //implements the shiftLevelRight thingy to shift the level every 40 updates
     public void constantScreenMove() { 
         timerForConstantScreenMoveMethod++;
-        if (timerForConstantScreenMoveMethod % (40 - difficulty) == 0) {
+        if (timerForConstantScreenMoveMethod % (50 - (int)gameScore) == 0) {
             duck.xOffsetForConstantMove(Constants.MOVE_SCREEN_RIGHT_LENGTH * Constants.TILES_SIZE);
             enemyManager.callXOffsetGoose();
             levelManager.getCurrentLevel().shiftLevelRight(Constants.MOVE_SCREEN_RIGHT_LENGTH);
@@ -49,6 +48,7 @@ public class PlayingScene extends Scene {
                 enemyManager.spawnGooseRandom();
                 obstacleCounter+= Constants.MOVE_SCREEN_RIGHT_LENGTH;
             } else { //restart screen moving and chose new level pattern when level sequence length reached
+                PlayingScene.gameScore += .2001;
                 obstacleCounter = 0;
                 pattern = patternChooser.nextInt(Constants.AMOUNT_OF_PATTERNS);
             }
@@ -82,16 +82,16 @@ public class PlayingScene extends Scene {
     }
     @Override
     public void draw(Graphics g) {
-        levelManager.draw(g);
-        duck.draw(g);
-        enemyManager.draw(g);
+        levelManager.draw(g); //draw level
+        duck.draw(g); //draw ducky
+        enemyManager.draw(g); //draw enemies
         g.setFont(new Font("Comic Sans MS", Font.BOLD, 40));
         g.setColor(Color.GREEN);
-        g.drawString("" + PlayingScene.gameScore, 700, 50);
+        g.drawString("" + (int)(PlayingScene.gameScore * 5), 700, 50); // draw game score
         if (duck.kh.getPause()) {
-            pauseScreen.draw(g);
+            pauseScreen.draw(g); //if paused draw pause over lay
         }
-        if (PlayingScene.unpaused) {
+        if (PlayingScene.unpaused) { //once unpaused, give a countdown till game starts again
             g.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
             g.setColor(Color.WHITE);
             if (unpauseCounter < 360) {

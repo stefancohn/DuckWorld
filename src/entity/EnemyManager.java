@@ -56,7 +56,7 @@ public class EnemyManager {
             levelData[i-1][47] == 4 && levelData[i-1][48] == 4 && levelData[i-1][49] == 4 &&
             levelData[i-2][47] == 4 && levelData[i-2][48] == 4 && levelData[i-2][49] == 4) { //ensures the three blocks above the spawn point are blank up two rows
                 int randomVal = spawnGooseChance.nextInt(101);
-                if (randomVal <= 20) { //5% chance an enemy spawns if spawn conditions are met 
+                if (randomVal <= 6 + (int) PlayingScene.gameScore) { //6% chance an enemy spawns if spawn conditions are met, increases with difficulty 
                     enemies.add(new Goose(47 * Constants.TILES_SIZE, i * Constants.TILES_SIZE - 10 - height, width, height, levelData));
                 }
             }
@@ -91,7 +91,7 @@ public class EnemyManager {
                 if (Collisions.entityCollide(enemies.get(i).hitbox, projectiles.get(j).hitbox)) {
                     projectiles.get(j).collided = true;
                     enemies.get(i).isDead = true;
-                    PlayingScene.gameScore++;
+                    PlayingScene.gameScore+= .2001;
                 }
             }
         }

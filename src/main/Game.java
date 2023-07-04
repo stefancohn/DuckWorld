@@ -56,6 +56,9 @@ public class Game implements Runnable {
             case Constants.SCENE_PLAYING:
                 currentScene = new PlayingScene(duck);
                 break;
+            case Constants.SCENE_DEATH: 
+                currentScene = new DeathScene();
+                break;
             default:
                 currentScene = null;
                 break;

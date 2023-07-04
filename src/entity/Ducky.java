@@ -1,5 +1,6 @@
 package entity;
 import handler.KeyHandler;
+import main.Game;
 import util.Collisions;
 import util.Constants;
 import util.LoadSave;
@@ -15,7 +16,7 @@ import java.awt.image.BufferedImage;
         public static int duckDimensionsSide = 21;
 
         //animation variables
-        BufferedImage[][] duckAni = new BufferedImage[6][4];
+        BufferedImage[][] duckAni = new BufferedImage[6][5];
         int spriteLoop = 0;
         int spriteRow = 0;
         int spriteCol = 0;
@@ -23,7 +24,7 @@ import java.awt.image.BufferedImage;
         String direction = "";
         Boolean isAttacking = false; //for tracking attack animation properly 
         Boolean isAttackingLeft = false;
-        Boolean isDead = false; //for tracking death animation properly
+        public Boolean isDead = false; //for tracking death animation properly
 
         public KeyHandler kh = new KeyHandler();
 
@@ -79,7 +80,7 @@ import java.awt.image.BufferedImage;
                     spriteRow = Constants.DUCKY_ATTACK_LEFT;
                     break;
                 case "death": 
-                    spriteCol = 4;
+                    spriteCol = 5;
                     spriteRow = Constants.DUCKY_DEATH;
                     updateHitboxSide(duckDimensionsIdle);
                 default: 
@@ -108,8 +109,9 @@ import java.awt.image.BufferedImage;
                     isAttackingLeft = false;
                     aniSpeed = 15;
                 }
-                if (isDead && spriteLoop >= 3) {
-                    spriteLoop = 3;
+                if (isDead && spriteLoop >= 5) {
+                    spriteLoop = 5;
+                    Game.game.changeState(Constants.SCENE_DEATH);
                 }
                 else if (spriteLoop >= spriteCol) { //restart animation when reaches end of animation columns from sprite sheet
                     spriteLoop = 0;
@@ -264,6 +266,7 @@ import java.awt.image.BufferedImage;
             }
             if (isDead) {
                 direction = "death";
+                aniSpeed= 60;
                 //perform death animation 
                // System.out.println("DEAD");
             }

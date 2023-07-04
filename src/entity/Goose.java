@@ -78,11 +78,11 @@ public class Goose extends Entity {
             movingLeft = !movingLeft; //if there is a collision, flip the direction, reset travelled distance
             traveledDistance = 0;
         }
-        if (!Collisions.isOnFloor(hitbox.x + 37, hitbox.y, hitbox.width, hitbox.height, levelData) && !movingLeft) {
+        if (!Collisions.isOnFloor(hitbox.x + 1, hitbox.y, hitbox.width, hitbox.height, levelData) && !movingLeft) {
             movingLeft = !movingLeft; //if there is no ground while moving RIGHT, flip direction, reset traveled distance
             traveledDistance = 0;
         }
-        if (!Collisions.isOnFloor(hitbox.x - 37, hitbox.y, hitbox.width, hitbox.height, levelData) && movingLeft) {
+        if (!Collisions.isOnFloor(hitbox.x - 1, hitbox.y, hitbox.width, hitbox.height, levelData) && movingLeft) {
             movingLeft = !movingLeft; //if there is no ground while moving LEFT, flip direction, reset traveled distance
             traveledDistance = 0;
         }
