@@ -47,6 +47,10 @@ import java.awt.image.BufferedImage;
             loadAni();
         }
 
+        public void defaultDucky() {
+            isDead = false; 
+        }
+
         public void initiateLevelData(int[][] levelData) {
             this.levelData = levelData;
         }
@@ -109,8 +113,8 @@ import java.awt.image.BufferedImage;
                     isAttackingLeft = false;
                     aniSpeed = 15;
                 }
-                if (isDead && spriteLoop >= 5) {
-                    spriteLoop = 5;
+                if (isDead && spriteLoop >= 4) { //when ducky dies he flashes and state changes 
+                    spriteLoop = 4;
                     Game.game.changeState(Constants.SCENE_DEATH);
                 }
                 else if (spriteLoop >= spriteCol) { //restart animation when reaches end of animation columns from sprite sheet

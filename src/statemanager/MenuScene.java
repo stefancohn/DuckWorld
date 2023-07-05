@@ -1,5 +1,6 @@
 package statemanager;
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import handler.MouseHandler;
@@ -47,6 +48,10 @@ public class MenuScene extends Scene{
     public void draw(Graphics g) {
         g.drawImage(menuImage, 0, 0, null);
         g.drawImage(playButton[buttonSprite], (Constants.GAME_WIDTH/2) - 200, 200, 400, 100, null);
+        
+        g.setFont(new Font("Comic Sans MS", Font.PLAIN, 0)); //get load font glitch to pass in beginning
+        g.drawString("", 0, 0);
+
     }
     
 }

@@ -47,7 +47,7 @@ public class Game implements Runnable {
         duck.resetDir();
     }
 
-    //change state
+    //change state method, creates new scene
     public void changeState(int sceneNum) {
         switch (sceneNum) {
             case Constants.SCENE_MENU: 
@@ -57,7 +57,7 @@ public class Game implements Runnable {
                 currentScene = new PlayingScene(duck);
                 break;
             case Constants.SCENE_DEATH: 
-                currentScene = new DeathScene();
+                currentScene = new DeathScene(panel.mh);
                 break;
             default:
                 currentScene = null;

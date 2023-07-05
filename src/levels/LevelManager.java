@@ -1,6 +1,5 @@
 package levels;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -8,8 +7,9 @@ import util.Constants;
 import util.LoadSave;
 
 public class LevelManager {
-    private BufferedImage[] levelSprite = new BufferedImage[6]; 
-    private BufferedImage[] obstacleSprites = new BufferedImage[Constants.AMOUNT_OF_PATTERNS];
+    private BufferedImage[] levelSprite = new BufferedImage[6];  //holds all the blocks from sprite sheet to build level 
+    private BufferedImage[] obstacleSprites = new BufferedImage[Constants.AMOUNT_OF_PATTERNS]; //holds all random level patterns 
+    private BufferedImage background = LoadSave.getSpriteAtlas("res/background.png");
 
     Level mainLevel;
     Level[] obstacleSequences = new Level[Constants.AMOUNT_OF_PATTERNS];
@@ -59,8 +59,7 @@ public class LevelManager {
     public void update() {
     }
     public void draw(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, 800, 500);
+        g.drawImage(background, 0, 0, null);
         for (int i = 0; i < Constants.TILES_IN_HEIGHT; i++) 
             for (int j = 0; j < Constants.TILES_IN_WIDTH; j++) {
                 int index = mainLevel.getSpriteIndex(i, j);
