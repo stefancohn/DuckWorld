@@ -71,7 +71,7 @@ public class DeathSceneOverlay {
         g.drawString("HIGHSCORES", 275, 120);
         g.setFont(new Font("Comic Sans MS", Font.PLAIN, 25));
         for (int i = 0; i < SaveScores.highscores.size(); i++) {
-            g.drawString((i + 1) + ". " + SaveScores.highscores.get(i).toString(), 355, 150 + i * 30);
+            g.drawString((i + 1) + ") " + SaveScores.highscores.get(i).toString(), 365, 150 + i * 30);
         }
     }
 
