@@ -5,6 +5,7 @@ import statemanager.PlayingScene;
 import util.Collisions;
 import util.Constants;
 import util.LoadSave;
+import util.SaveScores;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -119,12 +120,17 @@ import java.awt.image.BufferedImage;
                 }
                 if (isDead && spriteLoop >= 4) { //when ducky dies he flashes and state changes 
                     spriteLoop = 4;
-                    Game.game.changeState(Constants.SCENE_DEATH);
+                    actionsToTakeWhenDuckyDies(); //call method when animation finishes
                 }
                 else if (spriteLoop >= spriteCol) { //restart animation when reaches end of animation columns from sprite sheet
                     spriteLoop = 0;
                 }
             }
+        }
+
+        public void actionsToTakeWhenDuckyDies() { //things to chagne when ducky dies
+            Game.game.changeState(Constants.SCENE_DEATH);
+            SaveScores.saveScore();
         }
 
         private void duckyMovementAndHitbox() {

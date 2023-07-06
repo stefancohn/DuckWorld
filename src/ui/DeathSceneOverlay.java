@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -7,6 +8,7 @@ import handler.MouseHandler;
 import main.Game;
 import util.Constants;
 import util.LoadSave;
+import util.SaveScores;
 
 public class DeathSceneOverlay {
     MouseHandler mh;
@@ -64,6 +66,13 @@ public class DeathSceneOverlay {
     public void draw(Graphics g) {
         g.drawImage(deathSceneButtons[0][playAgainButtonSprite], buttonPlacementX, 300, buttonWidth, buttonHeight, null);
         g.drawImage(deathSceneButtons[1][quitButtonSprite], buttonPlacementX + 10, 375, buttonWidth - 20, buttonHeight, null);
+
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, 35));
+        g.drawString("HIGHSCORES", 275, 120);
+        g.setFont(new Font("Comic Sans MS", Font.PLAIN, 25));
+        for (int i = 0; i < SaveScores.highscores.size(); i++) {
+            g.drawString((i + 1) + ". " + SaveScores.highscores.get(i).toString(), 355, 150 + i * 30);
+        }
     }
 
 }

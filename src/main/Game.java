@@ -52,6 +52,7 @@ public class Game implements Runnable {
         switch (sceneNum) {
             case Constants.SCENE_MENU: 
                 currentScene = new MenuScene(panel.mh);
+
                 break;
             case Constants.SCENE_PLAYING:
                 currentScene = new PlayingScene(duck);
