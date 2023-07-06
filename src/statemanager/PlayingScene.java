@@ -85,9 +85,9 @@ public class PlayingScene extends Scene {
         levelManager.draw(g); //draw level
         duck.draw(g); //draw ducky
         enemyManager.draw(g); //draw enemies
-        g.setFont(new Font("Comic Sans MS", Font.BOLD, 40));
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, 35));
         g.setColor(Color.GREEN);
-        g.drawString("" + (int)(PlayingScene.gameScore * 5), 700, 50); // draw game score
+        g.drawString("Score: " + (int)(PlayingScene.gameScore * 5), 600, 50); // draw game score
         if (duck.kh.getPause()) {
             pauseScreen.draw(g); //if paused draw pause over lay
         }

@@ -1,6 +1,7 @@
 package entity;
 import handler.KeyHandler;
 import main.Game;
+import statemanager.PlayingScene;
 import util.Collisions;
 import util.Constants;
 import util.LoadSave;
@@ -49,6 +50,9 @@ import java.awt.image.BufferedImage;
 
         public void defaultDucky() {
             isDead = false; 
+            hitbox.x = 100;
+            hitbox.y = 200;
+            PlayingScene.gameScore = 0;
         }
 
         public void initiateLevelData(int[][] levelData) {
@@ -168,7 +172,7 @@ import java.awt.image.BufferedImage;
                 isAttackingLeft = true;
                 updateHitboxSide(duckDimensionsSide);
                 //these commands make sure we can move, jump, and shoot all at the same time
-                if (kh.getUpPres()) {
+                if (kh.getUpPres() && !inAir) {
                     jump();
                 }
                 if (Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)){
@@ -193,7 +197,7 @@ import java.awt.image.BufferedImage;
                 direction = "attackingRight";
                 aniSpeed = 8;
                 updateHitboxSide(duckDimensionsSide);
-                if (kh.getUpPres()) {
+                if (kh.getUpPres() && !inAir) {
                     jump();
                 }
                 if (Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
@@ -281,7 +285,7 @@ import java.awt.image.BufferedImage;
         }
 
         public void update() {
-            duckyMovementAndHitbox();
+            if (!isDead) { duckyMovementAndHitbox(); }
             duckyDead();
             setAni();
             updateAni();

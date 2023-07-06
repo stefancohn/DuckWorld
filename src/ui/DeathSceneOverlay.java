@@ -40,6 +40,7 @@ public class DeathSceneOverlay {
         if (buttonPlacementX < mh.x && buttonPlacementX + buttonWidth > mh.x && 300 < mh.y && 300 + buttonHeight > mh.y) {
             playAgainButtonSprite = 1;
             if (mh.clicked) {
+                Game.game.getDucky().defaultDucky();
                 Game.game.changeState(Constants.SCENE_MENU);
             }
         } else {
