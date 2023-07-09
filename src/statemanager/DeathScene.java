@@ -11,7 +11,7 @@ public class DeathScene extends Scene {
     MouseHandler mh;
     DeathSceneOverlay overlay;
 
-    BufferedImage background = LoadSave.getSpriteAtlas("res/backgroundDeath.png");
+    BufferedImage background = LoadSave.getSpriteAtlas("/res/backgroundDeath.png");
 
     public DeathScene(MouseHandler mh) {
         this.mh = mh;

@@ -35,7 +35,7 @@ public class EnemyManager {
     }
 
     public void spawnGooseDefault() { //this method spawns the goose for the default levle that shows when the game starts
-        spawnPoints = LoadSave.getLevelDataBlue("res/levelOne.png");
+        spawnPoints = LoadSave.getLevelDataBlue("/res/levelOne.png");
         for (int i = 0; i < spawnPoints.length; i++) { 
             for (int j = 0; j < spawnPoints[i].length; j++) { //gets level data regarding blue squares, ones with value 1 spawn a goose
                 int value = spawnPoints[i][j];
@@ -56,8 +56,14 @@ public class EnemyManager {
             levelData[i-1][47] == 4 && levelData[i-1][48] == 4 && levelData[i-1][49] == 4 &&
             levelData[i-2][47] == 4 && levelData[i-2][48] == 4 && levelData[i-2][49] == 4) { //ensures the three blocks above the spawn point are blank up two rows
                 int randomVal = spawnGooseChance.nextInt(101);
-                if (randomVal <= 6 + (int) PlayingScene.gameScore) { //6% chance an enemy spawns if spawn conditions are met, increases with difficulty 
-                    enemies.add(new Goose(47 * Constants.TILES_SIZE, i * Constants.TILES_SIZE - 10 - height, width, height, levelData));
+                if ((int) PlayingScene.gameScore < 30) {
+                    if (randomVal <= 6 + (int) PlayingScene.gameScore) { //6% chance an enemy spawns if spawn conditions are met, increases with difficulty 
+                        enemies.add(new Goose(47 * Constants.TILES_SIZE, i * Constants.TILES_SIZE - 10 - height, width, height, levelData));
+                    }
+                } else {
+                    if (randomVal <= 36) { //36% chance an enemy spawns once difficulty limit is hit
+                        enemies.add(new Goose(47 * Constants.TILES_SIZE, i * Constants.TILES_SIZE - 10 - height, width, height, levelData));
+                    }
                 }
             }
         }

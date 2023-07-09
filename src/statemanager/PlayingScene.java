@@ -28,7 +28,7 @@ public class PlayingScene extends Scene {
     int unpauseCounter = 0;
     int displayedCountdown = 3;
 
-    public static double gameScore = 0; //tracks enemies killed, sequences cleared, and is responsible for difficulty
+    public static double gameScore = 30; //tracks enemies killed, sequences cleared, and is responsible for difficulty
 
     public PlayingScene(Ducky duck) {
         this.duck = duck;
@@ -38,22 +38,32 @@ public class PlayingScene extends Scene {
     //implements the shiftLevelRight thingy to shift the level every 40 updates
     public void constantScreenMove() { 
         timerForConstantScreenMoveMethod++;
-        if (timerForConstantScreenMoveMethod % (50 - (int)gameScore) == 0) {
-            duck.xOffsetForConstantMove(Constants.MOVE_SCREEN_RIGHT_LENGTH * Constants.TILES_SIZE);
-            enemyManager.callXOffsetGoose();
-            levelManager.getCurrentLevel().shiftLevelRight(Constants.MOVE_SCREEN_RIGHT_LENGTH);
-            //moves ducky with the xOffset(moveScreenRightLength) so he is updated correctly
-            if (obstacleCounter < 50) { 
-                levelManager.transformMainLevel(Constants.MOVE_SCREEN_RIGHT_LENGTH, obstacleCounter, pattern);
-                enemyManager.spawnGooseRandom();
-                obstacleCounter+= Constants.MOVE_SCREEN_RIGHT_LENGTH;
-            } else { //restart screen moving and chose new level pattern when level sequence length reached
-                PlayingScene.gameScore += .2001;
-                obstacleCounter = 0;
-                pattern = patternChooser.nextInt(Constants.AMOUNT_OF_PATTERNS);
+        if ((int)PlayingScene.gameScore < 32) { //caps off screen move once difficulty hits 31
+            if (timerForConstantScreenMoveMethod % (50 - (int)PlayingScene.gameScore) == 0) {
+                constantScreenMoveMethod();
+            }
+        } else {
+            if (timerForConstantScreenMoveMethod % 19 == 0) {
+                constantScreenMoveMethod();
             }
         }
     } 
+
+    public void constantScreenMoveMethod() {
+        duck.xOffsetForConstantMove(Constants.MOVE_SCREEN_RIGHT_LENGTH * Constants.TILES_SIZE);
+        enemyManager.callXOffsetGoose();
+        levelManager.getCurrentLevel().shiftLevelRight(Constants.MOVE_SCREEN_RIGHT_LENGTH);
+        //moves ducky with the xOffset(moveScreenRightLength) so he is updated correctly
+        if (obstacleCounter < 50) { 
+            levelManager.transformMainLevel(Constants.MOVE_SCREEN_RIGHT_LENGTH, obstacleCounter, pattern);
+            enemyManager.spawnGooseRandom();
+            obstacleCounter+= Constants.MOVE_SCREEN_RIGHT_LENGTH;
+        } else { //restart screen moving and chose new level pattern when level sequence length reached
+            PlayingScene.gameScore += .2001;
+            obstacleCounter = 0;
+            pattern = patternChooser.nextInt(Constants.AMOUNT_OF_PATTERNS);
+        }
+    }
 
     public void unpauseTimer() {
         unpauseCounter++;

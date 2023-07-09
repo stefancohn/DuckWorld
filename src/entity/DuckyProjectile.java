@@ -25,7 +25,7 @@ public class DuckyProjectile extends Entity {
     }
 
     private void loadProjectile() { //get spriteAtlas, get subimage
-        projectileImg = LoadSave.getSpriteAtlas("res/marshmallow.png");
+        projectileImg = LoadSave.getSpriteAtlas("/res/marshmallow.png");
         projectileImg = projectileImg.getSubimage(0, 0, 16, 16);
     }
 

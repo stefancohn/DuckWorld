@@ -29,7 +29,7 @@ public class DeathSceneOverlay {
     }
 
     public void loadButtons() { //get button from image and place it into array
-        BufferedImage img = LoadSave.getSpriteAtlas("res/deathScreenButtons.png");
+        BufferedImage img = LoadSave.getSpriteAtlas("/res/deathScreenButtons.png");
         for (int i = 0; i < deathSceneButtons.length; i++) {
             for (int j = 0; j < deathSceneButtons[i].length; j++) {
                 deathSceneButtons[i][j] = img.getSubimage(j * 200, i * 50, 200, 50);

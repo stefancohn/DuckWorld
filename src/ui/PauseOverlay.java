@@ -32,7 +32,7 @@ public class PauseOverlay {
     }
 
     public void initialzePauseOverlay() {
-        pauseOverlay = LoadSave.getSpriteAtlas("res/pauseScreen.png");
+        pauseOverlay = LoadSave.getSpriteAtlas("/res/pauseScreen.png");
         xPlacementForOverlay = (Constants.GAME_WIDTH/2) - (pauseOverlay.getWidth()/2);
         yPlacementForOverlay = (Constants.GAME_HEIGHT/2) - (pauseOverlay.getHeight()/2) - 20;
     }
@@ -40,7 +40,7 @@ public class PauseOverlay {
     public void initializePauseButtons() {
         xPlacementForButtons = xPlacementForOverlay + 25;
 
-        BufferedImage img = LoadSave.getSpriteAtlas("res/PauseButtons.png");
+        BufferedImage img = LoadSave.getSpriteAtlas("/res/pauseButtons.png");
         for (int i = 0; i < pauseButtons.length; i++) {
             for (int j = 0; j < pauseButtons[i].length; j++) {
                 pauseButtons[i][j] = img.getSubimage(j * buttonWidth, i * buttonHeight, buttonWidth, buttonHeight);

@@ -33,7 +33,7 @@ public class Goose extends Entity {
     }
 
     private void initializeGoose() { //put images of goose into bufferedimage array
-        BufferedImage img = LoadSave.getSpriteAtlas("res/Goose.png");
+        BufferedImage img = LoadSave.getSpriteAtlas("/res/Goose.png");
         for (int i = 0; i < gooseImages.length; i++) {
             for (int j = 0; j < gooseImages[i].length; j++) {
                 gooseImages[i][j] = img.getSubimage(j * 16, i * 16, 16, 16);
