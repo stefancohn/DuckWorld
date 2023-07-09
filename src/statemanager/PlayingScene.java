@@ -28,7 +28,7 @@ public class PlayingScene extends Scene {
     int unpauseCounter = 0;
     int displayedCountdown = 3;
 
-    public static double gameScore = 30; //tracks enemies killed, sequences cleared, and is responsible for difficulty
+    public static double gameScore = 0; //tracks enemies killed, sequences cleared, and is responsible for difficulty
 
     public PlayingScene(Ducky duck) {
         this.duck = duck;

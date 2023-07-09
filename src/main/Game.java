@@ -1,6 +1,9 @@
 package main;
 
 import java.awt.Graphics;
+
+import javax.swing.ImageIcon;
+
 import entity.Ducky;
 import util.*;
 import statemanager.*;
@@ -10,6 +13,8 @@ public class Game implements Runnable {
     Thread GameThread = new Thread(this);
     GamePanel panel = new GamePanel(this);
     GameFrame frame = new GameFrame(panel);
+
+    ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource("res/duckIcon.png")); //for image icon
 
     Ducky duck = new Ducky(panel.kh, 100, 200, 40, 40);
 
@@ -21,6 +26,7 @@ public class Game implements Runnable {
         changeState(sceneNum);
         frame.add(panel);
         frame.pack();
+        frame.setIconImage(logo.getImage());
         frame.setVisible(true);
     }
     //singleton game panel

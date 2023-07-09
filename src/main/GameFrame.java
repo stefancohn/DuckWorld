@@ -1,9 +1,11 @@
 package main;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 import util.Constants;
+import util.LoadSave;
 
 public class GameFrame extends JFrame {
 
@@ -13,6 +15,7 @@ public class GameFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Duck World");
         this.setLocationRelativeTo(null);
+
         this.addWindowFocusListener(new WindowFocusListener() {
 
             @Override
