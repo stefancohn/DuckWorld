@@ -1,11 +1,9 @@
 package main;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 import util.Constants;
-import util.LoadSave;
 
 public class GameFrame extends JFrame {
 

@@ -37,12 +37,11 @@ public class SaveScores {
             for (int i = 0; i < SaveScores.highscores.size(); i++) { //find which score to replace 
                 if (score > highscores.get(i)) {
                     highscores.add(i, score);
-                    return true; 
                 } else {
                     highscores.add(score);
-                    return true;
                 }
             }
+            return true;
         }
 
         for (int i = 0; i < highscores.size(); i++) { //find which score to replace if more than 5

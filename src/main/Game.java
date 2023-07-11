@@ -14,7 +14,7 @@ public class Game implements Runnable {
     GamePanel panel = new GamePanel(this);
     GameFrame frame = new GameFrame(panel);
 
-    ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource("res/duckIcon.png")); //for image icon
+    ImageIcon logo = new ImageIcon( getClass().getClassLoader().getResource("res/duckIcon.png")); //for image icon
 
     Ducky duck = new Ducky(panel.kh, 100, 200, 40, 40);
 
