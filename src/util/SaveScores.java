@@ -14,8 +14,8 @@ public class SaveScores {
     public static ArrayList<Integer> highscores;
 
     public static void saveScore() {
-        SaveScores.highscores = readScores(); //adds score to file
-        cleanScores();
+        SaveScores.highscores = readScores(); //adds .txt file to arraylist
+        cleanScores(); //clean up the scores
         int holder = (int) (PlayingScene.gameScore * 5);
         if (isTop5(holder)) { //check if top 5
             try (BufferedWriter bw = new BufferedWriter(new FileWriter("highscoresData.txt", true))){ //append score in txt file
@@ -26,7 +26,7 @@ public class SaveScores {
                 e.printStackTrace();
             }
         }
-        cleanScores(); //clean the, up at the end
+        cleanScores(); //clean them up at the end
     }
 
     private static Boolean isTop5(int score) { //determines if a number is top 5 and also adds it to our arraylist 
@@ -60,8 +60,8 @@ public class SaveScores {
 
     private static void cleanScores() { //clean scores up
         Collections.sort(SaveScores.highscores, Collections.reverseOrder());
-        if (SaveScores.highscores.size() >= 5) {
-            for (int i = 5; i < SaveScores.highscores.size(); i++) {
+        if (SaveScores.highscores.size() > 5) {
+            for (int i = SaveScores.highscores.size() - 1; i > 4; i--) {
                 SaveScores.highscores.remove(i);
             }
         }

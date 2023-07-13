@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 
+import audio.AudioPlayer;
 import entity.Ducky;
 import util.*;
 import statemanager.*;
@@ -14,13 +15,14 @@ public class Game implements Runnable {
     GamePanel panel = new GamePanel(this);
     GameFrame frame = new GameFrame(panel);
 
-    ImageIcon logo = new ImageIcon( getClass().getClassLoader().getResource("res/duckIcon.png")); //for image icon
+    ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource("res/duckIcon.png")); //for image icon
 
     Ducky duck = new Ducky(panel.kh, 100, 200, 40, 40);
 
     Scene currentScene;
     int sceneNum = Constants.SCENE_MENU; //controls which scene we are on
-
+    
+    public AudioPlayer audioPlayer = new AudioPlayer();
 
     public Game() {
         changeState(sceneNum);
@@ -42,6 +44,9 @@ public class Game implements Runnable {
     public Ducky getDucky() {
         return this.duck;
     }
+    public AudioPlayer getAudioPlayer() {
+        return this.audioPlayer;
+    }
 
     //start game
     public void startGameThread() {
@@ -58,13 +63,14 @@ public class Game implements Runnable {
         switch (sceneNum) {
             case Constants.SCENE_MENU: 
                 currentScene = new MenuScene(panel.mh);
-
                 break;
             case Constants.SCENE_PLAYING:
                 currentScene = new PlayingScene(duck);
+                audioPlayer.playSong(AudioPlayer.PLAYING_SONG);
                 break;
             case Constants.SCENE_DEATH: 
                 currentScene = new DeathScene(panel.mh);
+                audioPlayer.playSong(AudioPlayer.HIGHSCORE_SONG);
                 break;
             default:
                 currentScene = null;

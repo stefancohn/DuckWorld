@@ -31,9 +31,9 @@ public class DuckyProjectile extends Entity {
 
     public void constantMove() { //will keep going until there is a collision detected
         if (!collided && Collisions.canMoveHere(hitbox.x + projectileSpeed, hitbox.y, width, height, levelData) && isRight) {
-            hitbox.x += projectileSpeed;
+            hitbox.x += projectileSpeed; //if is right, hasn't collided, and can move adds projectile speed
         } else if (!collided && Collisions.canMoveHere(hitbox.x - projectileSpeed, hitbox.y, width, height, levelData) && !isRight) {
-            hitbox.x -= projectileSpeed;
+            hitbox.x -= projectileSpeed; //if is left, hasn't collided, and can move subtracts projectile speed
         }
         else {
             hitbox.x = Collisions.getXposNextToWallRightMoving(hitbox);

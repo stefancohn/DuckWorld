@@ -1,8 +1,6 @@
 package statemanager;
-
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-
 import handler.MouseHandler;
 import ui.DeathSceneOverlay;
 import util.LoadSave;

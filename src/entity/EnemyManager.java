@@ -107,7 +107,7 @@ public class EnemyManager {
         //makes sure only one projectile created at end of animation instead of many when attacking
         if (duck.isAttacking && duck.spriteLoop == 3 && duck.aniTick == 7 && !duck.isAttackingLeft) { 
             projectiles.add(new DuckyProjectile(duck.hitbox.x + duck.hitbox.width + 4, duck.hitbox.y + 6, 10, 10, true, levelData));
-        } else if (duck.isAttacking && duck.spriteLoop == 3 && duck.aniTick == 7 && duck.isAttackingLeft) {
+        } else if (duck.isAttacking && duck.spriteLoop == 3 && duck.aniTick == 7 && duck.isAttackingLeft) { //method to handle when attacking left
             projectiles.add(new DuckyProjectile(duck.hitbox.x, duck.hitbox.y + 6, 10, 10, false, levelData));
         }
     }

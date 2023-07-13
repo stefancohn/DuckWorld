@@ -64,9 +64,10 @@ public class DeathSceneOverlay {
         mouseMovement();
     }
     public void draw(Graphics g) {
-        g.drawImage(deathSceneButtons[0][playAgainButtonSprite], buttonPlacementX, 300, buttonWidth, buttonHeight, null);
-        g.drawImage(deathSceneButtons[1][quitButtonSprite], buttonPlacementX + 10, 375, buttonWidth - 20, buttonHeight, null);
+        g.drawImage(deathSceneButtons[0][playAgainButtonSprite], buttonPlacementX, 300, buttonWidth, buttonHeight, null); //draw play again button
+        g.drawImage(deathSceneButtons[1][quitButtonSprite], buttonPlacementX + 10, 375, buttonWidth - 20, buttonHeight, null); //draw quit button
 
+        //draw highscores
         g.setFont(new Font("Comic Sans MS", Font.BOLD, 35));
         g.drawString("HIGHSCORES", 275, 120);
         g.setFont(new Font("Comic Sans MS", Font.PLAIN, 25));

@@ -10,8 +10,6 @@ import ui.PauseOverlay;
 import util.Constants;
 import java.util.Random;
 
-import audio.AudioPlayer;
-
 public class PlayingScene extends Scene {
     Ducky duck;
 
@@ -31,8 +29,6 @@ public class PlayingScene extends Scene {
     int displayedCountdown = 3;
 
     public static double gameScore = 0; //tracks enemies killed, sequences cleared, and is responsible for difficulty
-    
-    public AudioPlayer audioPlayer = new AudioPlayer();
 
     public PlayingScene(Ducky duck) {
         this.duck = duck;
@@ -83,18 +79,15 @@ public class PlayingScene extends Scene {
 
     @Override
     public void update() {
-        if (PlayingScene.unpaused) {
+        if (PlayingScene.unpaused) { //when unpaused, hit the timer
             unpauseTimer();
         }
-        else if (!duck.kh.getPause()) {
+        else if (!duck.kh.getPause()) { //if not paused, update ducky, enemies, and the screen
             duck.update();
             enemyManager.update();
             constantScreenMove();
-        } else if (duck.kh.getPause()) {
+        } else if (duck.kh.getPause()) { //when paused, put up the pause overlay
             pauseScreen.update();
-        }
-        if (duck.isDead) {
-            audioPlayer.stopSong();
         }
     }
     @Override
@@ -102,13 +95,15 @@ public class PlayingScene extends Scene {
         levelManager.draw(g); //draw level
         duck.draw(g); //draw ducky
         enemyManager.draw(g); //draw enemies
+
+        // draw game score
         g.setFont(new Font("Comic Sans MS", Font.BOLD, 35));
         g.setColor(Color.GREEN);
-        g.drawString("Score: " + (int)(PlayingScene.gameScore * 5), 600, 50); // draw game score
-        if (duck.kh.getPause()) {
-            pauseScreen.draw(g); //if paused draw pause over lay
-        }
-        if (PlayingScene.unpaused) { //once unpaused, give a countdown till game starts again
+        g.drawString("Score: " + (int)(PlayingScene.gameScore * 5), 600, 50); 
+
+        if (duck.kh.getPause()) { //if paused draw pause over lay
+            pauseScreen.draw(g); 
+        } if (PlayingScene.unpaused) { //once unpaused, give a countdown till game starts again
             g.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
             g.setColor(Color.WHITE);
             if (unpauseCounter < 360) {

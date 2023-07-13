@@ -6,9 +6,9 @@ import util.Collisions;
 import util.Constants;
 import util.LoadSave;
 import util.SaveScores;
-
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import audio.AudioPlayer;
 
     public class Ducky extends Entity {
         BufferedImage duckSprite;
@@ -26,6 +26,7 @@ import java.awt.image.BufferedImage;
         String direction = "";
         Boolean isAttacking = false; //for tracking attack animation properly 
         Boolean isAttackingLeft = false;
+        Boolean attackingSound = false; //for tracking attacking sound
         public Boolean isDead = false; //for tracking death animation properly
 
         public KeyHandler kh = new KeyHandler();
@@ -112,6 +113,9 @@ import java.awt.image.BufferedImage;
             if (aniTick >= aniSpeed) {  //once anitick is greater than desired speed reset it and go to next sprite in the animation
                 aniTick = 0;
                 spriteLoop++;
+                if (isAttacking && spriteLoop == 1) { //to play quack sound
+                    Game.game.getAudioPlayer().playEffect(AudioPlayer.ATTACK);
+                }
                 if (isAttacking && spriteLoop == 4) { //this is so that when space is pressed, the attack animation runs through in full, it is stopeed, and anispeed is back to defaul
                     kh.spacePressed = false;
                     isAttacking = false;
@@ -173,9 +177,9 @@ import java.awt.image.BufferedImage;
             }//attack left
             else if (kh.getSpacePres() && kh.getLeftPres() && !kh.getRightPres()) {
                 isAttacking = true;
+                isAttackingLeft = true;
                 direction = "attackingLeft";
                 aniSpeed = 8; //change ani speed to make animation faster
-                isAttackingLeft = true;
                 updateHitboxSide(duckDimensionsSide);
                 //these commands make sure we can move, jump, and shoot all at the same time
                 if (kh.getUpPres() && !inAir) {
@@ -219,11 +223,6 @@ import java.awt.image.BufferedImage;
                 aniSpeed = 8;
                 updateHitboxSide(duckDimensionsSide);
             }
-            //reset attack button
-            if (kh.getSpacePres() && !kh.getRightPres() && !kh.getLeftPres() 
-            && !kh.getDownPres() && !kh.getUpPres() && !isAttacking) {
-                kh.spacePressed = false;
-            }
 
             //jump
             if (kh.getUpPres() && !kh.getDownPres() && !inAir && !kh.getSpacePres()){
@@ -262,9 +261,10 @@ import java.awt.image.BufferedImage;
             }
         }
 
-        private void jump() {
+        private void jump() { //sets jump and inAir to true and plays jump effect
             inAir = true;
             jump = true;
+            Game.game.getAudioPlayer().playEffect(AudioPlayer.JUMP);
         }
 
         public void xOffsetForConstantMove(int xOffset) {
@@ -279,10 +279,9 @@ import java.awt.image.BufferedImage;
                 isDead = true;
             }
             if (isDead) {
-                direction = "death";
-                aniSpeed= 60;
-                //perform death animation 
-               // System.out.println("DEAD");
+                Game.game.getAudioPlayer().stopSong();
+                direction = "death"; //perform death animation
+                aniSpeed= 60; //slow down the speed so it performs properly 
             }
         }
 
@@ -291,7 +290,7 @@ import java.awt.image.BufferedImage;
         }
 
         public void update() {
-            if (!isDead) { duckyMovementAndHitbox(); }
+            if (!isDead) { duckyMovementAndHitbox(); } //if isn't dead, allow movement
             duckyDead();
             setAni();
             updateAni();
