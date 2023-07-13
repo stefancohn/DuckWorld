@@ -10,6 +10,8 @@ import ui.PauseOverlay;
 import util.Constants;
 import java.util.Random;
 
+import audio.AudioPlayer;
+
 public class PlayingScene extends Scene {
     Ducky duck;
 
@@ -29,6 +31,8 @@ public class PlayingScene extends Scene {
     int displayedCountdown = 3;
 
     public static double gameScore = 0; //tracks enemies killed, sequences cleared, and is responsible for difficulty
+    
+    public AudioPlayer audioPlayer = new AudioPlayer();
 
     public PlayingScene(Ducky duck) {
         this.duck = duck;
@@ -88,6 +92,9 @@ public class PlayingScene extends Scene {
             constantScreenMove();
         } else if (duck.kh.getPause()) {
             pauseScreen.update();
+        }
+        if (duck.isDead) {
+            audioPlayer.stopSong();
         }
     }
     @Override

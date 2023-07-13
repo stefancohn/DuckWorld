@@ -15,41 +15,33 @@ public class SaveScores {
 
     public static void saveScore() {
         SaveScores.highscores = readScores(); //adds score to file
+        cleanScores();
         int holder = (int) (PlayingScene.gameScore * 5);
-        if (isTop5(holder)) {
+        if (isTop5(holder)) { //check if top 5
             try (BufferedWriter bw = new BufferedWriter(new FileWriter("highscoresData.txt", true))){ //append score in txt file
                 String gameScore = String.valueOf(holder);
-                bw.write(gameScore);
+                bw.write(gameScore); //write down the score for future reference
                 bw.newLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        cleanScores(); //clean the, up at the end
     }
 
     private static Boolean isTop5(int score) { //determines if a number is top 5 and also adds it to our arraylist 
-        if (SaveScores.highscores.size() < 5) { //check if less than 5 numbers
-
-            if (SaveScores.highscores.size() < 1) { //if nothing in array just add score, no checks
-                highscores.add(score);
-                return true; }
-
-            for (int i = 0; i < SaveScores.highscores.size(); i++) { //find which score to replace 
-                if (score > highscores.get(i)) {
-                    highscores.add(i, score);
-                } else {
-                    highscores.add(score);
-                }
-            }
-            return true;
+        if (SaveScores.highscores.size() <= 4) { //check if less than 5 numbers, just add automatically
+            highscores.add(score);
+            return true; 
         }
 
-        for (int i = 0; i < highscores.size(); i++) { //find which score to replace if more than 5
+        for (int i = 0; i < highscores.size(); i++) { //add score if it is more than an existing score
             if (score > highscores.get(i)) {
-                highscores.set(i, score);
+                highscores.add(score);
                 return true;
             }
         }
+
         return false;
     } 
 
@@ -63,12 +55,15 @@ public class SaveScores {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Collections.sort(highscores, Collections.reverseOrder());
-        if (highscores.size() > 5) {
-            for (int i = 5; i < highscores.size(); i++) {
-                highscores.remove(i);
+        return highscores;
+    }
+
+    private static void cleanScores() { //clean scores up
+        Collections.sort(SaveScores.highscores, Collections.reverseOrder());
+        if (SaveScores.highscores.size() >= 5) {
+            for (int i = 5; i < SaveScores.highscores.size(); i++) {
+                SaveScores.highscores.remove(i);
             }
         }
-        return highscores;
     }
 }
