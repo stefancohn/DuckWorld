@@ -25,7 +25,7 @@ public class AudioPlayer {
 
     int currentSongID; //so we can use the various methods
     
-    float volume = 0.8f;
+    public float volume = 0.8f;
 
     public AudioPlayer() {
         loadSong(); //load da songs

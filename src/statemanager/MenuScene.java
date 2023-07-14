@@ -11,8 +11,8 @@ import util.LoadSave;
 public class MenuScene extends Scene{
     MouseHandler mh;
     BufferedImage menuImage = LoadSave.getSpriteAtlas("/res/menuScreen.png");
-    BufferedImage[] playButton = new BufferedImage[2];
-    int buttonSprite = 0; 
+    BufferedImage[] playButton = new BufferedImage[2]; //array to hold playbutton 
+    int buttonSprite = 0; //which spirte to show
 
     public MenuScene(MouseHandler mh) {
         this.mh = mh;
@@ -43,15 +43,17 @@ public class MenuScene extends Scene{
     @Override
     public void update() {
         mouseMovement();
+        Game.game.getVolumeButton().update();
     }
     @Override
     public void draw(Graphics g) {
-        g.drawImage(menuImage, 0, 0, null);
+        g.drawImage(menuImage, 0, 0, null); //display start screen with play button
         g.drawImage(playButton[buttonSprite], (Constants.GAME_WIDTH/2) - 200, 200, 400, 100, null);
         
         g.setFont(new Font("Comic Sans MS", Font.PLAIN, 0)); //get load font glitch to pass in beginning
         g.drawString("", 0, 0);
 
+        Game.game.getVolumeButton().draw(g); //draw volumebutton
     }
     
 }

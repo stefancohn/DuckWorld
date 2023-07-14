@@ -7,6 +7,7 @@ import entity.EnemyManager;
 import levels.LevelManager;
 import main.Game;
 import ui.PauseOverlay;
+import ui.VolumeButton;
 import util.Constants;
 import java.util.Random;
 
@@ -15,6 +16,8 @@ public class PlayingScene extends Scene {
 
     LevelManager levelManager = new LevelManager();
     EnemyManager enemyManager = new EnemyManager(levelManager);
+
+    VolumeButton volumeButton = new VolumeButton(Game.game.getPanel().getMouseHandler());
 
     //variables used for random generation of obstacles and screen move
     int timerForConstantScreenMoveMethod = 0;
@@ -86,8 +89,9 @@ public class PlayingScene extends Scene {
             duck.update();
             enemyManager.update();
             constantScreenMove();
-        } else if (duck.kh.getPause()) { //when paused, put up the pause overlay
+        } else if (duck.kh.getPause()) { //when paused, put up the pause overlay and vol button
             pauseScreen.update();
+            Game.game.getVolumeButton().update();
         }
     }
     @Override
@@ -103,6 +107,7 @@ public class PlayingScene extends Scene {
 
         if (duck.kh.getPause()) { //if paused draw pause over lay
             pauseScreen.draw(g); 
+            Game.game.getVolumeButton().draw(g);
         } if (PlayingScene.unpaused) { //once unpaused, give a countdown till game starts again
             g.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
             g.setColor(Color.WHITE);

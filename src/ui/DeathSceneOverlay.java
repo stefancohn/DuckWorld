@@ -23,6 +23,8 @@ public class DeathSceneOverlay {
     int quitButtonSprite = 0;
     int playAgainButtonSprite = 0;
 
+    VolumeButton volumeButton = new VolumeButton(Game.game.getPanel().getMouseHandler());
+
     public DeathSceneOverlay(MouseHandler mh) {
         this.mh = mh; 
         loadButtons();
@@ -37,7 +39,7 @@ public class DeathSceneOverlay {
         }
     }
 
-    public void mouseMovement() { //track mouse movement to switch images when hovering and when user clicks
+    private void mouseMovement() { //track mouse movement to switch images when hovering and when user clicks
         //for play again button
         if (buttonPlacementX < mh.x && buttonPlacementX + buttonWidth > mh.x && 300 < mh.y && 300 + buttonHeight > mh.y) {
             playAgainButtonSprite = 1;
@@ -62,10 +64,12 @@ public class DeathSceneOverlay {
 
     public void update() {
         mouseMovement();
+        Game.game.getVolumeButton().update();
     }
     public void draw(Graphics g) {
         g.drawImage(deathSceneButtons[0][playAgainButtonSprite], buttonPlacementX, 300, buttonWidth, buttonHeight, null); //draw play again button
         g.drawImage(deathSceneButtons[1][quitButtonSprite], buttonPlacementX + 10, 375, buttonWidth - 20, buttonHeight, null); //draw quit button
+        Game.game.getVolumeButton().draw(g); //draw volume button
 
         //draw highscores
         g.setFont(new Font("Comic Sans MS", Font.BOLD, 35));

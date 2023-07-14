@@ -8,6 +8,7 @@ import audio.AudioPlayer;
 import entity.Ducky;
 import util.*;
 import statemanager.*;
+import ui.VolumeButton;
 
 public class Game implements Runnable {
     public static Game game = null;
@@ -22,7 +23,8 @@ public class Game implements Runnable {
     Scene currentScene;
     int sceneNum = Constants.SCENE_MENU; //controls which scene we are on
     
-    public AudioPlayer audioPlayer = new AudioPlayer();
+    public AudioPlayer audioPlayer = new AudioPlayer(); //audio player 
+    public VolumeButton volumeButton = new VolumeButton(panel.mh);
 
     public Game() {
         changeState(sceneNum);
@@ -47,6 +49,9 @@ public class Game implements Runnable {
     public AudioPlayer getAudioPlayer() {
         return this.audioPlayer;
     }
+    public VolumeButton getVolumeButton() {
+        return this.volumeButton;
+    }
 
     //start game
     public void startGameThread() {
@@ -63,6 +68,7 @@ public class Game implements Runnable {
         switch (sceneNum) {
             case Constants.SCENE_MENU: 
                 currentScene = new MenuScene(panel.mh);
+                audioPlayer.playSong(AudioPlayer.MENU_SONG);
                 break;
             case Constants.SCENE_PLAYING:
                 currentScene = new PlayingScene(duck);

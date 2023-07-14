@@ -112,21 +112,21 @@ import audio.AudioPlayer;
             aniTick++;  //update ani tick
             if (aniTick >= aniSpeed) {  //once anitick is greater than desired speed reset it and go to next sprite in the animation
                 aniTick = 0;
+
                 if (isDead && spriteLoop == 0) { //to play death sound
                     Game.game.getAudioPlayer().playEffect(AudioPlayer.DEATH);
                 }
-                spriteLoop++;
-
                 if (isAttacking && spriteLoop == 1) { //to play quack sound
                     Game.game.getAudioPlayer().playEffect(AudioPlayer.ATTACK);
                 }
+
+                spriteLoop++;
                 if (isAttacking && spriteLoop == 4) { //this is so that when space is pressed, the attack animation runs through in full, it is stopeed, and anispeed is back to defaul
                     kh.spacePressed = false;
                     isAttacking = false;
                     isAttackingLeft = false;
                     aniSpeed = 15;
                 }
-
                 if (isDead && spriteLoop >= 4) { //when ducky dies he flashes and state changes 
                     spriteLoop = 4;
                     actionsToTakeWhenDuckyDies(); //call method when animation finishes
