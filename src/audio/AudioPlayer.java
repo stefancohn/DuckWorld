@@ -1,7 +1,8 @@
 package audio;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -35,16 +36,16 @@ public class AudioPlayer {
     }
 
     private void loadSong() { //load song into clip array
-        String[] names = { "src/res/Sounds/introMusic.wav", "src/res/Sounds/fluffingADuck.wav", "src/res/Sounds/highscoreMusic.wav"};
+        String[] names = { "/res/Sounds/introMusic.wav", "/res/Sounds/fluffingADuck.wav", "/res/Sounds/highscoreMusic.wav"};
 		songs = new Clip[names.length];
-
 		for (int i = 0; i < songs.length; i++) {
 			songs[i] = getClip(names[i]); //here is where we put them into array
         }
     }
 
     private void loadEffects() { //load effects into clip array 
-        String[] names = { "src/res/Sounds/quack.wav", "src/res/Sounds/jumpEffect.wav", "src/res/Sounds/duckDeath.wav", "src/res/Sounds/gooseDeath.wav"};
+        String[] names = { "/res/Sounds/quack.wav", "/res/Sounds/jumpEffect.wav", "/res/Sounds/duckDeath.wav",
+         "/res/Sounds/gooseDeath.wav"};
         effects = new Clip[names.length];
 
         for (int i = 0; i < effects.length; i++) {
@@ -55,16 +56,22 @@ public class AudioPlayer {
     
     //put an audio in a clip 
     public Clip getClip(String name) { 
-        try { 
-            File file = new File(name); 
-            AudioInputStream audio = AudioSystem.getAudioInputStream(file);
-            Clip c = AudioSystem.getClip();
-            c.open(audio);
-            return c;
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-            return null;
-        }
+        URL url = getClass().getResource(name);
+		AudioInputStream audio;
+
+		try {
+			audio = AudioSystem.getAudioInputStream(url);
+			Clip c = AudioSystem.getClip();
+			c.open(audio);
+			return c;
+
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+
+			e.printStackTrace();
+		}
+
+		return null;
+
 	}
 
     private void updateSongVolume() {
