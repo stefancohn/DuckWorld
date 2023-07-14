@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
+import audio.AudioPlayer;
 import levels.LevelManager;
 import main.Game;
 import statemanager.PlayingScene;
@@ -92,12 +93,13 @@ public class EnemyManager {
         }
     }
     public void gooseAndProjectileCollision() { 
-        for (int i = 0; i < enemies.size(); i++) {
+        for (int i = 0; i < enemies.size(); i++) { //cycle through all enemies and projectiles in game
             for (int j = 0; j < projectiles.size(); j++) {
-                if (Collisions.entityCollide(enemies.get(i).hitbox, projectiles.get(j).hitbox)) {
-                    projectiles.get(j).collided = true;
+                if (Collisions.entityCollide(enemies.get(i).hitbox, projectiles.get(j).hitbox)) { //if they collide
+                    projectiles.get(j).collided = true; 
                     enemies.get(i).isDead = true;
-                    PlayingScene.gameScore+= .2001;
+                    PlayingScene.gameScore+= .2001; //add score
+                    Game.game.getAudioPlayer().playEffect(AudioPlayer.GOOSE_DEATH); //play death sound for goose 
                 }
             }
         }

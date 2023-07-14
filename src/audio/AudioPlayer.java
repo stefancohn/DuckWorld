@@ -22,6 +22,7 @@ public class AudioPlayer {
 	public static int ATTACK = 0;
 	public static int JUMP = 1;
 	public static int DEATH = 2;
+    public static int GOOSE_DEATH = 3;
 
     int currentSongID; //so we can use the various methods
     
@@ -43,13 +44,12 @@ public class AudioPlayer {
     }
 
     private void loadEffects() { //load effects into clip array 
-        String[] names = { "src/res/Sounds/quack.wav", "src/res/Sounds/jumpEffect.wav", "src/res/Sounds/duckDeath.wav"};
+        String[] names = { "src/res/Sounds/quack.wav", "src/res/Sounds/jumpEffect.wav", "src/res/Sounds/duckDeath.wav", "src/res/Sounds/gooseDeath.wav"};
         effects = new Clip[names.length];
 
         for (int i = 0; i < effects.length; i++) {
             effects[i] = getClip(names[i]);
         }
-
         updateEffectsVolume();
     }
     
