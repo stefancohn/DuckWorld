@@ -44,10 +44,10 @@ public class LevelManager {
     //method to transplant randomly selected sequence from obstacleSequences to mainLevel
     //iterates through mainLevel data and replaces it with obstacleSequences data
     public void transformMainLevel(int xOffset, int obstacleCounter, int pattern) {
-        int width = mainLevel.getLevelData()[0].length - 1;
-        for (int i = 0; i < mainLevel.getLevelData().length; i++) {
-            for (int j = width, k =0; j > (mainLevel.getLevelData()[i].length - 1) - xOffset; j--, k++){
-                mainLevel.getLevelData()[i][j] = obstacleSequences[pattern].getLevelData()[i][k + obstacleCounter];
+        int width = mainLevel.getLevelData()[0].length - 1; //get width
+        for (int i = 0; i < mainLevel.getLevelData().length; i++) { //iterate through mainLevel level data (rows)
+            for (int j = width, k =0; j > (mainLevel.getLevelData()[i].length - 1) - xOffset; j--, k++){ //iterate through columns starting from 50
+                mainLevel.getLevelData()[i][j] = obstacleSequences[pattern].getLevelData()[i][k + obstacleCounter]; //
             }
         }
     }

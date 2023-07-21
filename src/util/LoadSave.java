@@ -43,7 +43,7 @@ public class LoadSave {
     }
     //same method as above but works with images instead of files
     public static int[][] getLevelDataRedImg(BufferedImage img) {
-        int[][] levelData = new int[img.getHeight()] [img.getWidth()];
+        int[][] levelData = new int[img.getHeight()][img.getWidth()];
 
         for (int i = 0; i < img.getHeight(); i++) {
             for (int j = 0; j < img.getWidth(); j++) {
