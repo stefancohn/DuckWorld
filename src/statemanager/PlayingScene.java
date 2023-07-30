@@ -23,7 +23,7 @@ public class PlayingScene extends Scene {
     int timerForConstantScreenMoveMethod = 0;
     int obstacleCounter = 0;
     Random patternChooser = new Random();
-    int pattern = patternChooser.nextInt(Constants.AMOUNT_OF_PATTERNS);
+    int pattern = patternChooser.nextInt(Constants.AMOUNT_OF_PATTERNS); //picks a number that corresponds with one of the obstacle patterns
     
     //variables for pause overlay 
     PauseOverlay pauseScreen = new PauseOverlay(Game.game.getPanel().getMouseHandler());
@@ -53,7 +53,7 @@ public class PlayingScene extends Scene {
     } 
 
     public void constantScreenMoveMethod() {
-        duck.xOffsetForConstantMove(Constants.MOVE_SCREEN_RIGHT_LENGTH * Constants.TILES_SIZE);
+        duck.xOffsetForConstantMove(Constants.MOVE_SCREEN_RIGHT_LENGTH * 16);
         enemyManager.callXOffsetGoose();
         levelManager.getCurrentLevel().shiftLevelRight(Constants.MOVE_SCREEN_RIGHT_LENGTH);
         //moves ducky with the xOffset(moveScreenRightLength) so he is updated correctly

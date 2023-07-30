@@ -47,7 +47,7 @@ public class LevelManager {
         int width = mainLevel.getLevelData()[0].length - 1; //get width
         for (int i = 0; i < mainLevel.getLevelData().length; i++) { //iterate through mainLevel level data (rows)
             for (int j = width, k =0; j > (mainLevel.getLevelData()[i].length - 1) - xOffset; j--, k++){ //iterate through columns starting from 50
-                mainLevel.getLevelData()[i][j] = obstacleSequences[pattern].getLevelData()[i][k + obstacleCounter]; //
+                mainLevel.getLevelData()[i][j] = obstacleSequences[pattern].getLevelData()[i][k + obstacleCounter]; //swap blocks
             }
         }
     }
