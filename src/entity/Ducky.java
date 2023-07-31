@@ -302,7 +302,7 @@ import audio.AudioPlayer;
         }
         public void draw(Graphics g) {
             if (direction == "right" || direction == "attackingRight") {
-                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 10 , hitbox.y, width, height, null);
+                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 10, hitbox.y, width, height, null);
                 //drawHitbox(g);
             } else if (direction == "left" || direction == "attackingLeft") {
                 g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 8, hitbox.y, width, height, null);

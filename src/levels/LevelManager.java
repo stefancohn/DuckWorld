@@ -66,7 +66,7 @@ public class LevelManager {
                 if (index != 4) {
                 //these are drawn to size because the level builder sprites are 16*16, no size def needed
                 //does not draw any black squares in the case that a background is to be drawn
-                    g.drawImage(levelSprite[index], j * Constants.TILES_SIZE_DEF - 50, i * Constants.TILES_SIZE_DEF, 16, 16, null);
+                    g.drawImage(levelSprite[index], j * Constants.TILES_SIZE_DEF, i * Constants.TILES_SIZE_DEF, 16, 16, null);
                 }
         }
     }
