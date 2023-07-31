@@ -55,7 +55,6 @@ public class PlayingScene extends Scene {
     public void constantScreenMoveMethod() {
         duck.xOffsetForConstantMove(Constants.MOVE_SCREEN_RIGHT_LENGTH * 16);
         enemyManager.callXOffsetGoose();
-        levelManager.getCurrentLevel().shiftLevelRight(Constants.MOVE_SCREEN_RIGHT_LENGTH);
         //moves ducky with the xOffset(moveScreenRightLength) so he is updated correctly
         if (obstacleCounter < 50) { 
             levelManager.transformMainLevel(Constants.MOVE_SCREEN_RIGHT_LENGTH, obstacleCounter, pattern);
@@ -66,6 +65,7 @@ public class PlayingScene extends Scene {
             obstacleCounter = 0;
             pattern = patternChooser.nextInt(Constants.AMOUNT_OF_PATTERNS);
         }
+        levelManager.getCurrentLevel().shiftLevelRight(Constants.MOVE_SCREEN_RIGHT_LENGTH);
     }
 
     public void unpauseTimer() {
