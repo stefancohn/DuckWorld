@@ -33,7 +33,7 @@ public class LevelManager {
     //creates levelDatas for obstacles sprites
     public void importObstacleSequences() {
         BufferedImage img = LoadSave.getSpriteAtlas(LoadSave.OBSTACLE_SEQUENCES); //loads gimp file into bufferedimg
-        for (int j = 0; j < (img.getWidth()/Constants.TILES_IN_WIDTH); j++) {
+        for (int j = 0; j < (img.getWidth()/50); j++) {
             obstacleSprites[j] = img.getSubimage(j * 50, 0, 50, 30); //fills in array of bufferedimg with subimages of obstacle sequences
         }
         for (int i = 0; i < obstacleSprites.length; i ++) {
@@ -58,15 +58,15 @@ public class LevelManager {
 
     public void update() {
     }
-    public void draw(Graphics g) {
+    public void draw(Graphics g, int xOffset) {
         g.drawImage(background, 0, 0, null);
-        for (int i = 0; i < Constants.TILES_IN_HEIGHT; i++) 
-            for (int j = 0; j < Constants.TILES_IN_WIDTH; j++) {
+        for (int i = 0; i < mainLevel.getLevelData().length; i++) 
+            for (int j = 0; j < mainLevel.getLevelData()[0].length; j++) {
                 int index = mainLevel.getSpriteIndex(i, j);
                 if (index != 4) {
                 //these are drawn to size because the level builder sprites are 16*16, no size def needed
                 //does not draw any black squares in the case that a background is to be drawn
-                    g.drawImage(levelSprite[index], j * Constants.TILES_SIZE_DEF, i * Constants.TILES_SIZE_DEF, 16, 16, null);
+                    g.drawImage(levelSprite[index], j * Constants.TILES_SIZE_DEF - xOffset, i * Constants.TILES_SIZE_DEF, 16, 16, null);
                 }
         }
     }

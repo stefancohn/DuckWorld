@@ -114,8 +114,8 @@ public class Goose extends Entity {
         movement();
         setAni();
     }
-    public void draw(Graphics g) {
-        g.drawImage(gooseImages[spriteRow][0], hitbox.x, hitbox.y, width, height, null);
+    public void draw(Graphics g, int xOffset) {
+        g.drawImage(gooseImages[spriteRow][0], hitbox.x - xOffset, hitbox.y, width, height, null);
         //drawHitbox(g);
     }
 }

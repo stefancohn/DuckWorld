@@ -300,15 +300,15 @@ import audio.AudioPlayer;
             setAni();
             updateAni();
         }
-        public void draw(Graphics g) {
+        public void draw(Graphics g, int xOffset) {
             if (direction == "right" || direction == "attackingRight") {
-                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 10, hitbox.y, width, height, null);
+                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 10 - xOffset, hitbox.y, width, height, null);
                 //drawHitbox(g);
             } else if (direction == "left" || direction == "attackingLeft") {
-                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 8, hitbox.y, width, height, null);
+                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - 8 - xOffset, hitbox.y, width, height, null);
                 //drawHitbox(g);
             } else {
-                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x, hitbox.y, width, height, null);
+                g.drawImage(duckAni[spriteRow][spriteLoop], hitbox.x - xOffset, hitbox.y, width, height, null);
                 //drawHitbox(g);
             }
         }
