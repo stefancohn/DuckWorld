@@ -100,7 +100,7 @@ public class PlayingScene extends Scene {
         else if (!duck.kh.getPause()) { //if not paused, update ducky, enemies, and the screen
             duck.update();
             enemyManager.update();
-            //constantScreenMove();
+            constantScreenMove();
         } else if (duck.kh.getPause()) { //when paused, put up the pause overlay and vol button
             pauseScreen.update();
             Game.game.getVolumeButton().update();
