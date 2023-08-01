@@ -33,8 +33,8 @@ public class LevelManager {
     //creates levelDatas for obstacles sprites
     public void importObstacleSequences() {
         BufferedImage img = LoadSave.getSpriteAtlas(LoadSave.OBSTACLE_SEQUENCES); //loads gimp file into bufferedimg
-        for (int j = 0; j < (img.getWidth()/50); j++) {
-            obstacleSprites[j] = img.getSubimage(j * 50, 0, 50, 30); //fills in array of bufferedimg with subimages of obstacle sequences
+        for (int j = 0; j < (img.getWidth()/10); j++) {
+            obstacleSprites[j] = img.getSubimage(j * 10, 0, 10, 30); //fills in array of bufferedimg with subimages of obstacle sequences
         }
         for (int i = 0; i < obstacleSprites.length; i ++) {
             obstacleSequences[i] = new Level(LoadSave.getLevelDataRedImg(obstacleSprites[i])); //retrieves leveldata RGB

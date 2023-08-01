@@ -154,7 +154,7 @@ import audio.AudioPlayer;
                         airWallCollision = true;
                     }
                 }
-                else if (!Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+                else if (!Collisions.canMoveHere(hitbox.x + Constants.DUCKY_SPEED, hitbox.y, duckDimensionsIdle, hitbox.height, levelData)) {
                     hitbox.x = Collisions.getXposNextToWallRightIdle(hitbox);
                 } else if (!Collisions.canMoveHere(hitbox.x - Constants.DUCKY_SPEED, hitbox.y, hitbox.width, hitbox.height, levelData)) {
                     hitbox.x = Collisions.getXPosNextToWallLeft(hitbox);

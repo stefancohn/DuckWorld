@@ -40,10 +40,10 @@ public class PlayingScene extends Scene {
         duck.initiateLevelData(levelManager.getCurrentLevel().getLevelData());
     }
 
-    //implements the shiftLevelRight thingy to shift the level every 40 updates
+    //implements the shiftLevelRight thingy to shift the level every x updates depending on difficulty
     public void constantScreenMove() { 
         timerForConstantScreenMoveMethod++;
-        if ((int)PlayingScene.gameScore > 4) { //caps off screen move once difficulty hits 31 to fastest
+        if ((int)PlayingScene.gameScore > 6) { //caps off screen move once difficulty hits >6 to fastest screen move
             constantScreenMoveMethod();
         } else if ((int)PlayingScene.gameScore > 2) {
             if (timerForConstantScreenMoveMethod % 2 == 0) { //mid diff
@@ -66,7 +66,7 @@ public class PlayingScene extends Scene {
             duck.xOffsetForConstantMove(16);
             enemyManager.callXOffsetGoose(16);
             //moves ducky with the xOffset(moveScreenRightLength) so he is updated correctly
-            if (obstacleCounter < 50) { 
+            if (obstacleCounter < 10) { 
                 levelManager.transformMainLevel(Constants.MOVE_SCREEN_RIGHT_LENGTH, obstacleCounter, pattern);
                 enemyManager.spawnGooseRandom();
                 obstacleCounter+= Constants.MOVE_SCREEN_RIGHT_LENGTH;
@@ -100,7 +100,7 @@ public class PlayingScene extends Scene {
         else if (!duck.kh.getPause()) { //if not paused, update ducky, enemies, and the screen
             duck.update();
             enemyManager.update();
-            constantScreenMove();
+            //constantScreenMove();
         } else if (duck.kh.getPause()) { //when paused, put up the pause overlay and vol button
             pauseScreen.update();
             Game.game.getVolumeButton().update();

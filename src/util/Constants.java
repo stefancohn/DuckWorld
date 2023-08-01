@@ -29,7 +29,7 @@ public class Constants {
     public static final int SCENE_PLAYING = 1;
     public static final int SCENE_DEATH = 2;
 
-    public static final int AMOUNT_OF_PATTERNS = 7;
+    public static final int AMOUNT_OF_PATTERNS = 35;
     public static final int MOVE_SCREEN_RIGHT_LENGTH = 1;
 
     public static final int ENEMY_SPEED = 1;
