@@ -66,7 +66,7 @@ public class PlayingScene extends Scene {
             duck.xOffsetForConstantMove(16);
             enemyManager.callXOffsetGoose(16);
             //moves ducky with the xOffset(moveScreenRightLength) so he is updated correctly
-            if (obstacleCounter < 10) { 
+            if (obstacleCounter < 25) { 
                 levelManager.transformMainLevel(Constants.MOVE_SCREEN_RIGHT_LENGTH, obstacleCounter, pattern);
                 enemyManager.spawnGooseRandom();
                 obstacleCounter+= Constants.MOVE_SCREEN_RIGHT_LENGTH;
